@@ -6,3 +6,4 @@ assets/*.html
 .env
 *.log
 .DS_Store
+.claude
