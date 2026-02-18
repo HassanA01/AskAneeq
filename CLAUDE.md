@@ -2,6 +2,10 @@
 
 A ChatGPT app built with the OpenAI Apps SDK that lets users ask questions about Aneeq Hassan.
 
+## Git
+
+- Do not add `Co-Authored-By` lines to commits.
+
 ## Architecture
 
 - **MCP Server** (`server/`): Node.js + Express + TypeScript. Exposes tools via StreamableHTTP on port 8000 at `/mcp`.
