@@ -1,4 +1,8 @@
-import express from "express";
+import express, { type ErrorRequestHandler } from "express";
+import cors from "cors";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import { randomUUID } from "node:crypto";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import {
@@ -9,12 +13,22 @@ import { registerTools } from "./tools/index.js";
 import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { logger } from "./logger.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8000;
 const SERVER_URL = process.env.SERVER_URL;
+const isProduction = process.env.NODE_ENV === "production";
+
+// CORS origins: ChatGPT domains + any extras from env
+const ALLOWED_ORIGINS = [
+  "https://chatgpt.com",
+  "https://cdn.oaistatic.com",
+  ...(process.env.CORS_ORIGINS?.split(",").map((o) => o.trim()).filter(Boolean) ?? []),
+  ...(!isProduction ? ["http://localhost:4444", "http://localhost:8000"] : []),
+];
 
 function createMcpServer() {
   const mcpServer = new McpServer({
@@ -56,7 +70,7 @@ function createMcpServer() {
 </body>
 </html>`;
       } catch (error) {
-        console.error("Widget build failed:", error);
+        logger.error({ err: error }, "Widget build failed");
         widgetHtml =
           "<div style='padding:2rem;font-family:sans-serif;text-align:center;color:#666'>Widget not built. Run: npm run build -w web</div>";
       }
@@ -79,20 +93,49 @@ function createMcpServer() {
 
 const app = express();
 
-// CORS — must expose Mcp-Session-Id header
-app.use((_req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, OPTIONS");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "content-type, mcp-session-id",
-  );
-  res.setHeader("Access-Control-Expose-Headers", "Mcp-Session-Id");
+// Security headers
+app.use(helmet());
+
+// Request ID + request logging
+app.use((req, res, next) => {
+  const requestId = randomUUID();
+  res.setHeader("X-Request-Id", requestId);
+
+  const start = Date.now();
+  res.on("finish", () => {
+    logger.info(
+      {
+        requestId,
+        method: req.method,
+        url: req.originalUrl,
+        statusCode: res.statusCode,
+        responseTimeMs: Date.now() - start,
+      },
+      "request completed",
+    );
+  });
+
   next();
 });
 
-// Preflight
-app.options("/mcp", (_req, res) => res.status(204).end());
+// CORS — explicit origins in production, permissive in development
+app.use(
+  cors({
+    origin: isProduction ? ALLOWED_ORIGINS : true,
+    methods: ["POST", "GET", "DELETE", "OPTIONS"],
+    allowedHeaders: ["content-type", "mcp-session-id"],
+    exposedHeaders: ["Mcp-Session-Id"],
+  }),
+);
+
+// Rate limiting on MCP endpoint
+const mcpRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: process.env.RATE_LIMIT_MAX ? parseInt(process.env.RATE_LIMIT_MAX) : 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many requests, please try again later" },
+});
 
 // Root probe — ChatGPT checks this when adding a connector
 app.get("/", (_req, res) => {
@@ -102,11 +145,20 @@ app.get("/", (_req, res) => {
 
 // Health check
 app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "ask-aneeq", version: "1.0.0" });
+  res.json({
+    status: "ok",
+    service: "ask-aneeq",
+    version: "1.0.0",
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+  });
 });
 
 // MCP endpoint — stateless, one server+transport per request (matches OpenAI quickstart)
-app.all("/mcp", express.json(), async (req, res) => {
+app.all("/mcp", mcpRateLimit, express.json(), async (req, res) => {
+  const requestId = res.getHeader("X-Request-Id") as string;
+  const reqLogger = logger.child({ requestId });
+
   const server = createMcpServer();
   const transport = new StreamableHTTPServerTransport({
     sessionIdGenerator: undefined, // stateless mode
@@ -122,18 +174,33 @@ app.all("/mcp", express.json(), async (req, res) => {
     await server.connect(transport);
     await transport.handleRequest(req, res, req.body);
   } catch (error) {
-    console.error("MCP error:", error);
+    reqLogger.error({ err: error }, "MCP request failed");
     if (!res.headersSent) {
-      res.status(500).json({ error: "Internal server error" });
+      res
+        .status(500)
+        .json({ error: "Internal server error", requestId });
     }
   }
 });
 
+// Error handling middleware
+const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
+  const requestId = res.getHeader("X-Request-Id") as string;
+  logger.error(
+    { err, requestId, method: req.method, url: req.originalUrl },
+    "Unhandled error",
+  );
+  if (!res.headersSent) {
+    res.status(500).json({ error: "Internal server error", requestId });
+  }
+};
+app.use(errorHandler);
+
 app.listen(PORT, () => {
-  console.log(`\nAskAneeq MCP Server running on port ${PORT}`);
-  console.log(`  Health:   http://localhost:${PORT}/health`);
-  console.log(`  MCP:      http://localhost:${PORT}/mcp`);
+  logger.info({ port: PORT }, "AskAneeq MCP Server started");
+  logger.info(`  Health:   http://localhost:${PORT}/health`);
+  logger.info(`  MCP:      http://localhost:${PORT}/mcp`);
   if (SERVER_URL) {
-    console.log(`  Public:   ${SERVER_URL}/mcp\n`);
+    logger.info(`  Public:   ${SERVER_URL}/mcp`);
   }
 });
