@@ -14,12 +14,12 @@ export function ExperienceTimeline({ data, focusId }: ExperienceTimelineProps) {
         <div
           key={exp.id}
           className={`rounded-xl border border-default bg-surface p-5 shadow-sm transition-all ${
-            focusId === exp.id ? "ring-2 ring-blue-400 shadow-md" : ""
+            focusId === exp.id ? "ring-2 ring-[var(--color-ring-info)] shadow-md" : ""
           }`}
         >
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Building2 className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 bg-[var(--color-background-info-surface)] rounded-lg flex items-center justify-center flex-shrink-0">
+              <Building2 className="w-5 h-5 text-[var(--color-text-info-soft)]" />
             </div>
 
             <div className="flex-1 min-w-0">
@@ -29,7 +29,7 @@ export function ExperienceTimeline({ data, focusId }: ExperienceTimelineProps) {
                   <Badge color="success" size="sm">Current</Badge>
                 )}
               </div>
-              <p className="text-blue-600 font-medium text-sm">{exp.company}</p>
+              <p className="text-[var(--color-text-info-soft)] font-medium text-sm">{exp.company}</p>
 
               <div className="flex items-center gap-3 mt-1 text-xs text-tertiary">
                 <span className="flex items-center gap-1">
@@ -47,7 +47,7 @@ export function ExperienceTimeline({ data, focusId }: ExperienceTimelineProps) {
           <ul className="mt-3 space-y-1 ml-[52px]">
             {exp.achievements.map((achievement, idx) => (
               <li key={idx} className="text-sm text-secondary flex items-start">
-                <span className="text-blue-400 mr-2 mt-0.5 text-xs">&#9679;</span>
+                <span className="text-[var(--color-text-info)] mr-2 mt-0.5 text-xs">&#9679;</span>
                 <span>{achievement}</span>
               </li>
             ))}

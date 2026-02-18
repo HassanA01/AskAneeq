@@ -18,26 +18,26 @@ export function App() {
     return (
       <div className="p-6 flex items-center justify-center min-h-[300px]">
         <div className="rounded-xl border border-default bg-surface p-5 shadow-sm max-w-sm text-center">
-          <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-            <HelpCircle className="w-6 h-6 text-blue-600" />
+          <div className="w-12 h-12 bg-[var(--color-background-info-surface)] rounded-full flex items-center justify-center mx-auto mb-3">
+            <HelpCircle className="w-6 h-6 text-[var(--color-text-info-soft)]" />
           </div>
           <h2 className="heading-md mb-1">Ask About Aneeq</h2>
           <p className="text-sm text-secondary mb-3">Try asking:</p>
           <ul className="text-left text-sm text-secondary space-y-1.5">
             <li className="flex items-start">
-              <span className="text-blue-400 mr-2">&#8226;</span>
+              <span className="text-[var(--color-text-info)] mr-2">&#8226;</span>
               What is Aneeq's current role?
             </li>
             <li className="flex items-start">
-              <span className="text-blue-400 mr-2">&#8226;</span>
+              <span className="text-[var(--color-text-info)] mr-2">&#8226;</span>
               Show me his projects
             </li>
             <li className="flex items-start">
-              <span className="text-blue-400 mr-2">&#8226;</span>
+              <span className="text-[var(--color-text-info)] mr-2">&#8226;</span>
               What are his technical skills?
             </li>
             <li className="flex items-start">
-              <span className="text-blue-400 mr-2">&#8226;</span>
+              <span className="text-[var(--color-text-info)] mr-2">&#8226;</span>
               How can I contact Aneeq?
             </li>
           </ul>

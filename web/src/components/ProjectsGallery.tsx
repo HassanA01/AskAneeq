@@ -40,8 +40,8 @@ export function ProjectsGallery({
             className="rounded-xl border border-default bg-surface p-5 shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="flex items-start gap-3">
-              <div className="w-9 h-9 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Folder className="w-4 h-4 text-blue-600" />
+              <div className="w-9 h-9 bg-[var(--color-background-info-surface)] rounded-lg flex items-center justify-center flex-shrink-0">
+                <Folder className="w-4 h-4 text-[var(--color-text-info-soft)]" />
               </div>
 
               <div className="flex-1 min-w-0">
@@ -58,14 +58,14 @@ export function ProjectsGallery({
             </div>
 
             {project.impact && (
-              <div className="mt-3 flex items-start gap-2 bg-green-100 p-2.5 rounded-lg">
-                <TrendingUp className="w-3.5 h-3.5 text-green-700 flex-shrink-0 mt-0.5" />
+              <div className="mt-3 flex items-start gap-2 bg-[var(--color-background-success-surface)] p-2.5 rounded-lg">
+                <TrendingUp className="w-3.5 h-3.5 text-[var(--color-text-success)] flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-xs font-medium text-green-800">
+                  <p className="text-xs font-medium text-[var(--color-text-success-soft)]">
                     {project.impact}
                   </p>
                   {project.metrics && (
-                    <p className="text-2xs text-green-600 mt-0.5">
+                    <p className="text-2xs text-[var(--color-text-success)] mt-0.5">
                       {project.metrics}
                     </p>
                   )}
@@ -86,7 +86,7 @@ export function ProjectsGallery({
                     href={project.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-xs text-secondary hover:text-blue-600 transition-colors"
+                    className="flex items-center gap-1 text-xs text-secondary hover:text-[var(--color-text-info-soft)] transition-colors"
                   >
                     <Github className="w-3.5 h-3.5" />
                     Code
@@ -97,7 +97,7 @@ export function ProjectsGallery({
                     href={project.links.demo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-xs text-secondary hover:text-blue-600 transition-colors"
+                    className="flex items-center gap-1 text-xs text-secondary hover:text-[var(--color-text-info-soft)] transition-colors"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
                     Demo

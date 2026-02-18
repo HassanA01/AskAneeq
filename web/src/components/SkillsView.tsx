@@ -18,7 +18,7 @@ export function SkillsView({ data }: SkillsViewProps) {
       {data.map((category) => (
         <div key={category.category} className="rounded-xl border border-default bg-surface p-5 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
-            <Code className="w-4 h-4 text-blue-600" />
+            <Code className="w-4 h-4 text-[var(--color-text-info-soft)]" />
             <h3 className="heading-xs">{category.category}</h3>
           </div>
 

@@ -44,9 +44,9 @@ export function ContactCard({ data }: ContactCardProps) {
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 p-3 rounded-lg border border-default hover:border-blue-300 hover:bg-blue-50 transition-all group"
+            className="flex items-center gap-3 p-3 rounded-lg border border-default hover:border-[var(--color-border-info)] hover:bg-[var(--color-background-info-surface)] transition-all group"
           >
-            <div className="w-9 h-9 rounded-lg bg-gray-100 group-hover:bg-white flex items-center justify-center text-tertiary group-hover:text-blue-600 transition-colors">
+            <div className="w-9 h-9 rounded-lg bg-gray-75 group-hover:bg-white flex items-center justify-center text-tertiary group-hover:text-[var(--color-text-info)] transition-colors">
               <link.icon className="w-4 h-4" />
             </div>
 

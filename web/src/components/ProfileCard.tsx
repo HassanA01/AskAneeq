@@ -21,7 +21,7 @@ export function ProfileCard({ data }: ProfileCardProps) {
 
         <div className="flex-1 min-w-0">
           <h2 className="heading-md">{data.name}</h2>
-          <p className="text-sm font-semibold text-blue-600">{data.title}</p>
+          <p className="text-sm font-semibold text-[var(--color-text-info)]">{data.title}</p>
           <p className="text-sm text-secondary mt-1.5 leading-relaxed">
             {data.tagline}
           </p>
