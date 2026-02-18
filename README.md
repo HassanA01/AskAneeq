@@ -48,7 +48,7 @@ Filter projects by keyword or technology.
 
 | Layer | Tech |
 |-------|------|
-| MCP Server | Node.js, Express, TypeScript, `@modelcontextprotocol/sdk`, `@modelcontextprotocol/ext-apps` |
+| MCP Server | Node.js, Express, TypeScript, `@modelcontextprotocol/sdk`, `@modelcontextprotocol/ext-apps`, Pino, Helmet, express-rate-limit |
 | Widget | React 18, Vite, TypeScript |
 | UI Components | [`@openai/apps-sdk-ui`](https://github.com/openai/apps-sdk-ui) (Avatar, Badge), [Lucide React](https://lucide.dev/) icons |
 | Styling | Tailwind CSS 4 with SDK UI design tokens (adaptive light/dark mode) |
@@ -65,11 +65,14 @@ npm start
 
 The server runs on port `8000`. Expose it with a tunnel (e.g. ngrok) and add the `/mcp` endpoint as a connector in ChatGPT under **Settings > Apps & Connectors**.
 
+For production deployment with Docker, see [docs/deployment.md](docs/deployment.md).
+
 ## Project structure
 
 ```
 server/src/
-  server.ts                # Express + MCP transport
+  server.ts                # Express + MCP transport + middleware
+  logger.ts                # Pino structured logging
   data/aneeq-data.ts       # All data about Aneeq
   tools/                   # Tool definitions and handlers
 
@@ -78,6 +81,8 @@ web/src/
   hooks/use-tool-result.ts # MCP Apps bridge
   components/              # UI components rendered in ChatGPT
   assets/                  # Inlined profile image (base64)
+
+docs/                      # Project documentation
 ```
 
 ## License

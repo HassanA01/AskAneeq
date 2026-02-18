@@ -22,12 +22,13 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8000;
 const SERVER_URL = process.env.SERVER_URL;
 const isProduction = process.env.NODE_ENV === "production";
 
-// CORS origins: ChatGPT domains + any extras from env
+// CORS origins: ChatGPT domains + localhost for dev + any extras from env
 const ALLOWED_ORIGINS = [
   "https://chatgpt.com",
   "https://cdn.oaistatic.com",
+  "http://localhost:4444",
+  "http://localhost:8000",
   ...(process.env.CORS_ORIGINS?.split(",").map((o) => o.trim()).filter(Boolean) ?? []),
-  ...(!isProduction ? ["http://localhost:4444", "http://localhost:8000"] : []),
 ];
 
 function createMcpServer() {

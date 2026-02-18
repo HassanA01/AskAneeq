@@ -34,7 +34,9 @@ npm run ngrok        # Tunnel
 
 ```
 server/src/
-  server.ts                        # Express + StreamableHTTP transport
+  server.ts                        # Express + MCP transport + middleware
+  logger.ts                        # Pino structured logging
+  logger.test.ts                   # Logger unit tests
   tools/index.ts                   # Tool registry
   tools/ask-about.ts               # Category Q&A tool
   tools/get-resume.ts              # Resume tool
@@ -55,6 +57,9 @@ web/src/
 docs/                              # Project documentation
   testing.md                       # Testing guide
   ci-cd.md                         # CI/CD pipeline docs
+  logging.md                       # Logging & observability
+  security.md                      # Security configuration
+  deployment.md                    # Deployment guide
   project-structure.md             # Full directory layout
 ```
 
