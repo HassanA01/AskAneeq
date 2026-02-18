@@ -6,6 +6,7 @@ import { SkillsView } from "./components/SkillsView";
 import { ContactCard } from "./components/ContactCard";
 import { EducationCard } from "./components/EducationCard";
 import { HelpCircle } from "lucide-react";
+import { Badge } from "@openai/apps-sdk-ui/components/Badge";
 
 export function App() {
   const toolResult = useToolResult();
@@ -16,29 +17,27 @@ export function App() {
   if (!toolResult || !view || !data) {
     return (
       <div className="p-6 flex items-center justify-center min-h-[300px]">
-        <div className="card max-w-sm text-center">
-          <div className="w-12 h-12 bg-sky-50 rounded-full flex items-center justify-center mx-auto mb-3">
-            <HelpCircle className="w-6 h-6 text-sky-600" />
+        <div className="rounded-xl border border-default bg-surface p-5 shadow-sm max-w-sm text-center">
+          <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <HelpCircle className="w-6 h-6 text-blue-600" />
           </div>
-          <h2 className="text-lg font-bold text-gray-900 mb-1">
-            Ask About Aneeq
-          </h2>
-          <p className="text-sm text-gray-500 mb-3">Try asking:</p>
-          <ul className="text-left text-sm text-gray-500 space-y-1.5">
+          <h2 className="heading-md mb-1">Ask About Aneeq</h2>
+          <p className="text-sm text-secondary mb-3">Try asking:</p>
+          <ul className="text-left text-sm text-secondary space-y-1.5">
             <li className="flex items-start">
-              <span className="text-sky-400 mr-2">&#8226;</span>
+              <span className="text-blue-400 mr-2">&#8226;</span>
               What is Aneeq's current role?
             </li>
             <li className="flex items-start">
-              <span className="text-sky-400 mr-2">&#8226;</span>
+              <span className="text-blue-400 mr-2">&#8226;</span>
               Show me his projects
             </li>
             <li className="flex items-start">
-              <span className="text-sky-400 mr-2">&#8226;</span>
+              <span className="text-blue-400 mr-2">&#8226;</span>
               What are his technical skills?
             </li>
             <li className="flex items-start">
-              <span className="text-sky-400 mr-2">&#8226;</span>
+              <span className="text-blue-400 mr-2">&#8226;</span>
               How can I contact Aneeq?
             </li>
           </ul>
@@ -73,18 +72,13 @@ export function App() {
       {view === "contact" && <ContactCard data={data} />}
 
       {view === "hobbies" && (
-        <div className="card animate-fade-in">
-          <h2 className="text-lg font-bold text-gray-900 mb-3">
-            Interests & Hobbies
-          </h2>
+        <div className="rounded-xl border border-default bg-surface p-5 shadow-sm animate-fade-in">
+          <h2 className="heading-md mb-3">Interests & Hobbies</h2>
           <div className="flex flex-wrap gap-2">
             {(data as string[]).map((hobby) => (
-              <span
-                key={hobby}
-                className="badge badge-secondary text-sm px-3 py-1.5"
-              >
+              <Badge key={hobby} color="secondary" size="md">
                 {hobby}
-              </span>
+              </Badge>
             ))}
           </div>
         </div>
