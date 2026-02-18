@@ -1,6 +1,6 @@
 import { Folder, ExternalLink, Github, TrendingUp } from "lucide-react";
 import { Badge } from "@openai/apps-sdk-ui/components/Badge";
-import type { Project } from "../types";
+import type { Project } from "../../types";
 
 interface ProjectsGalleryProps {
   data: Project[];

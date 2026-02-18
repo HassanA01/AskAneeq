@@ -1,6 +1,6 @@
 import { Building2, MapPin, Calendar } from "lucide-react";
 import { Badge } from "@openai/apps-sdk-ui/components/Badge";
-import type { Experience } from "../types";
+import type { Experience } from "../../types";
 
 interface ExperienceTimelineProps {
   data: Experience[];

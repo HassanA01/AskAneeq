@@ -1,5 +1,5 @@
 import { GraduationCap, Calendar } from "lucide-react";
-import type { Education } from "../types";
+import type { Education } from "../../types";
 
 interface EducationCardProps {
   data: Education[];

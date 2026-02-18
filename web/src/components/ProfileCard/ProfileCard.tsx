@@ -1,8 +1,8 @@
 import { Globe, Briefcase } from "lucide-react";
 import { Avatar } from "@openai/apps-sdk-ui/components/Avatar";
 import { Badge } from "@openai/apps-sdk-ui/components/Badge";
-import { profileImage } from "../assets/profile-image";
-import type { Overview } from "../types";
+import { profileImage } from "../../assets/profile-image";
+import type { Overview } from "../../types";
 
 interface ProfileCardProps {
   data: Overview;

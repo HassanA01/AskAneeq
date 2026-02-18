@@ -1,6 +1,6 @@
 import { Code, Sparkles } from "lucide-react";
 import { Badge } from "@openai/apps-sdk-ui/components/Badge";
-import type { SkillCategory } from "../types";
+import type { SkillCategory } from "../../types";
 
 interface SkillsViewProps {
   data: SkillCategory[];

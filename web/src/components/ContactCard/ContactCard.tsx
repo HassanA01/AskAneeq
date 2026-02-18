@@ -1,5 +1,5 @@
 import { Mail, Github, Linkedin, Globe } from "lucide-react";
-import type { Contact } from "../types";
+import type { Contact } from "../../types";
 
 interface ContactCardProps {
   data: Contact;
