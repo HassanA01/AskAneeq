@@ -6,6 +6,8 @@
 AskAneeq/
 ├── .github/workflows/ci.yml     # CI/CD pipeline
 ├── .env.example                  # Environment variable documentation
+├── Dockerfile                    # Multi-stage production build
+├── .dockerignore                 # Docker build exclusions
 ├── eslint.config.js              # ESLint flat config (TypeScript)
 ├── package.json                  # Root workspace config + scripts
 ├── tsconfig.json                 # Shared TypeScript base config
@@ -15,7 +17,9 @@ AskAneeq/
 │   ├── tsconfig.json
 │   ├── vitest.config.ts
 │   └── src/
-│       ├── server.ts             # Express app, MCP transport, widget serving
+│       ├── server.ts             # Express app, MCP transport, middleware
+│       ├── logger.ts             # Pino logger configuration
+│       ├── logger.test.ts        # Logger unit tests
 │       ├── data/
 │       │   └── aneeq-data.ts     # All profile data (single source of truth)
 │       └── tools/
@@ -73,6 +77,9 @@ AskAneeq/
 ├── docs/                         # Project documentation
 │   ├── testing.md
 │   ├── ci-cd.md
+│   ├── logging.md
+│   ├── security.md
+│   ├── deployment.md
 │   └── project-structure.md
 │
 └── assets/                       # Built widget output (gitignored)
