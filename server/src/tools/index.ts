@@ -9,6 +9,10 @@ import {
   searchProjectsSchema,
   handleSearchProjects,
 } from "./search-projects.js";
+import {
+  trackAnalyticsSchema,
+  handleTrackAnalytics,
+} from "./track-analytics.js";
 
 export function registerTools(server: McpServer) {
   registerAppTool(
@@ -69,5 +73,25 @@ export function registerTools(server: McpServer) {
       },
     },
     handleSearchProjects,
+  );
+
+  registerAppTool(
+    server,
+    "track_analytics",
+    {
+      title: "Track Analytics",
+      description:
+        "Log a query event for analytics. Call this alongside other tools to record what visitors are asking about Aneeq.",
+      inputSchema: trackAnalyticsSchema,
+      annotations: {
+        readOnlyHint: false,
+        openWorldHint: false,
+        destructiveHint: false,
+      },
+      _meta: {
+        ui: { resourceUri: "ui://widget/aneeq-profile.html" },
+      },
+    },
+    handleTrackAnalytics,
   );
 }
