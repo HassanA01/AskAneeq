@@ -22,6 +22,10 @@ AskAneeq/
 │       ├── logger.test.ts        # Logger unit tests
 │       ├── data/
 │       │   └── aneeq-data.ts     # All profile data (single source of truth)
+│       ├── search/
+│       │   ├── provider.ts               # SearchProvider interface
+│       │   ├── keyword-provider.ts       # KeywordSearchProvider
+│       │   └── keyword-provider.test.ts
 │       └── tools/
 │           ├── index.ts          # Tool registry
 │           ├── ask-about.ts      # Category Q&A tool
@@ -29,7 +33,17 @@ AskAneeq/
 │           ├── get-resume.ts     # Resume tool
 │           ├── get-resume.test.ts
 │           ├── search-projects.ts # Project search tool
-│           └── search-projects.test.ts
+│           ├── search-projects.test.ts
+│           ├── ask-anything.ts
+│           ├── ask-anything.test.ts
+│           ├── get-availability.ts
+│           ├── get-availability.test.ts
+│           ├── compare-skills.ts
+│           ├── compare-skills.test.ts
+│           ├── get-recommendations.ts
+│           ├── get-recommendations.test.ts
+│           ├── track-analytics.ts
+│           └── track-analytics.test.ts
 │
 ├── web/                          # React Widget (Vite + Tailwind)
 │   ├── package.json
@@ -69,9 +83,21 @@ AskAneeq/
 │           │   ├── ContactCard.tsx
 │           │   ├── ContactCard.test.tsx
 │           │   └── index.ts
-│           └── EducationCard/
-│               ├── EducationCard.tsx
-│               ├── EducationCard.test.tsx
+│           ├── EducationCard/
+│           │   ├── EducationCard.tsx
+│           │   ├── EducationCard.test.tsx
+│           │   └── index.ts
+│           ├── RecommendationsCard/
+│           │   ├── RecommendationsCard.tsx
+│           │   ├── RecommendationsCard.test.tsx
+│           │   └── index.ts
+│           ├── AvailabilityCard/
+│           │   ├── AvailabilityCard.tsx
+│           │   ├── AvailabilityCard.test.tsx
+│           │   └── index.ts
+│           └── SkillComparisonView/
+│               ├── SkillComparisonView.tsx
+│               ├── SkillComparisonView.test.tsx
 │               └── index.ts
 │
 ├── docs/                         # Project documentation

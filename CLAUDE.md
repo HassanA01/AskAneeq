@@ -10,11 +10,16 @@ A ChatGPT app built with the OpenAI Apps SDK that lets users ask questions about
 
 ## Tools
 
-| Tool              | Description                                                                                          |
-| ----------------- | ---------------------------------------------------------------------------------------------------- |
-| `ask_about_aneeq` | Query by category: overview, experience, projects, skills, education, contact, hobbies, current-role |
-| `get_resume`      | Full or summary resume format                                                                        |
-| `search_projects` | Filter projects by keyword or technology                                                             |
+| Tool                  | Description                                                                                          |
+| --------------------- | ---------------------------------------------------------------------------------------------------- |
+| `ask_about_aneeq`     | Query by category: overview, experience, projects, skills, education, contact, hobbies, current-role |
+| `get_resume`          | Full or summary resume format                                                                        |
+| `search_projects`     | Filter projects by keyword or technology                                                             |
+| `ask_anything`        | Free-form keyword search across all profile data                                                     |
+| `get_availability`    | Return a Calendly booking link (reads `CALENDLY_URL` env var)                                        |
+| `compare_skills`      | Look up proficiency for 1–4 skills side-by-side                                                     |
+| `get_recommendations` | Return testimonials and endorsements                                                                  |
+| `track_analytics`     | Log query events as structured pino log entries                                                      |
 
 ## Commands
 
@@ -41,8 +46,16 @@ server/src/
   tools/ask-about.ts               # Category Q&A tool
   tools/get-resume.ts              # Resume tool
   tools/search-projects.ts         # Project search tool
+  tools/ask-anything.ts            # Free-form keyword search tool
+  tools/get-availability.ts        # Calendly booking link tool
+  tools/compare-skills.ts          # Skill comparison tool
+  tools/get-recommendations.ts     # Testimonials tool
+  tools/track-analytics.ts         # Query event logging tool
   tools/*.test.ts                  # Tool unit tests
   data/aneeq-data.ts               # All data about Aneeq
+  search/                              # Search abstraction layer
+    provider.ts                        # SearchProvider interface
+    keyword-provider.ts                # KeywordSearchProvider (default)
 
 web/src/
   App.tsx                          # View router
@@ -53,6 +66,10 @@ web/src/
       <ComponentName>.tsx          # Implementation
       <ComponentName>.test.tsx     # Tests
       index.ts                     # Barrel export
+components/
+  RecommendationsCard/                 # Testimonials view
+  AvailabilityCard/                    # Booking link view
+  SkillComparisonView/                 # Proficiency comparison view
 
 docs/                              # Project documentation
   testing.md                       # Testing guide
