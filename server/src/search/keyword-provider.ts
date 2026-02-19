@@ -77,7 +77,7 @@ export class KeywordSearchProvider implements SearchProvider {
       ];
       const { score, matchedFields } = this.score(tokens, fields);
       if (score > 0) {
-        results.push({ view: "education", data: data.education, score, matchedFields });
+        results.push({ view: "education", data: [edu], score, matchedFields });
       }
     }
 
@@ -108,6 +108,9 @@ export class KeywordSearchProvider implements SearchProvider {
     for (const [fieldName, value, weight] of fields) {
       if (!value) continue;
       const lower = value.toLowerCase();
+      // Substring match (not word-boundary). Short tokens like "go" or "c" may
+      // match inside longer words (e.g., "MongoDB", "React"). Acceptable at
+      // this data scale; upgrade to word-boundary or vector search if needed.
       const hits = tokens.filter((t) => lower.includes(t)).length;
       if (hits > 0) {
         score += hits * weight;
