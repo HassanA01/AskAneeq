@@ -79,7 +79,7 @@ export const aneeqData: AneeqData = {
     tagline:
       "Building intelligent systems that deliver meaningful impact. Over 3 years of experience developing AI solutions and scalable applications.",
     yearsExperience: 3,
-    languages: ["English", "French", "Spanish", "Arabic", "Urdu"],
+    languages: ["English", "French", "Arabic", "Urdu"],
   },
 
   experience: [
@@ -187,6 +187,41 @@ export const aneeqData: AneeqData = {
 
   projects: [
     {
+      id: "semanticache",
+      name: "SemantiCache",
+      description:
+        "Semantic caching system that reduces LLM API costs by 35% using vector similarity search with HNSW indexes. Supports multiple embedding providers (OpenAI, HuggingFace) and vector databases (Redis, FAISS, pgvector) swappable via configuration. Includes request batching, two-stage retrieval with cross-encoder reranking for sub-5ms query latency, and Grafana dashboards for real-time cache performance and cost tracking.",
+      techStack: [
+        "TypeScript",
+        "Grafana",
+        "Prometheus",
+        "Redis",
+        "Docker",
+        "OpenAI API",
+        "Express",
+      ],
+      impact: "35% reduction in LLM API costs",
+      metrics: "Sub-5ms query latency",
+      featured: true,
+    },
+    {
+      id: "askaneeq",
+      name: "AskAneeq",
+      description:
+        "ChatGPT app built with the OpenAI Apps SDK that lets users ask questions about Aneeq. MCP server exposes tools (ask_about_aneeq, get_resume, search_projects, get_availability, compare_skills, and more) via StreamableHTTP; React widget renders rich views inside the ChatGPT iframe.",
+      techStack: [
+        "TypeScript",
+        "Node.js",
+        "Express",
+        "React",
+        "Vite",
+        "TailwindCSS",
+        "OpenAI Apps SDK",
+        "MCP",
+      ],
+      featured: true,
+    },
+    {
       id: "mailflowai",
       name: "MailflowAI",
       description:
@@ -261,7 +296,6 @@ export const aneeqData: AneeqData = {
       ],
       links: {
         github: "https://github.com/HassanA01/myriad-cro-website",
-        demo: "https://myriadcro.com",
       },
       featured: true,
     },
