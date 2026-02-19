@@ -13,6 +13,10 @@ import {
   trackAnalyticsSchema,
   handleTrackAnalytics,
 } from "./track-analytics.js";
+import {
+  getAvailabilitySchema,
+  handleGetAvailability,
+} from "./get-availability.js";
 
 export function registerTools(server: McpServer) {
   registerAppTool(
@@ -93,5 +97,25 @@ export function registerTools(server: McpServer) {
       },
     },
     handleTrackAnalytics,
+  );
+
+  registerAppTool(
+    server,
+    "get_availability",
+    {
+      title: "Get Availability",
+      description:
+        "Get a link to schedule time with Aneeq Hassan — for coffee chats, interviews, or collaboration.",
+      inputSchema: getAvailabilitySchema,
+      annotations: {
+        readOnlyHint: true,
+        openWorldHint: false,
+        destructiveHint: false,
+      },
+      _meta: {
+        ui: { resourceUri: "ui://widget/aneeq-profile.html" },
+      },
+    },
+    handleGetAvailability,
   );
 }
