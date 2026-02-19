@@ -46,6 +46,15 @@ export interface Contact {
   portfolio: string;
 }
 
+export interface Recommendation {
+  id: string;
+  author: string;
+  role: string;
+  company: string;
+  text: string;
+  linkedIn?: string;
+}
+
 export interface AneeqData {
   overview: {
     name: string;
@@ -60,6 +69,7 @@ export interface AneeqData {
   education: Education[];
   contact: Contact;
   hobbies: string[];
+  recommendations: Recommendation[];
 }
 
 export const aneeqData: AneeqData = {
@@ -394,5 +404,31 @@ export const aneeqData: AneeqData = {
     "Travel",
     "Fitness",
     "Food & Culinary Exploration",
+  ],
+
+  recommendations: [
+    {
+      id: "rec-1",
+      author: "Jane Smith",
+      role: "Senior Engineering Manager",
+      company: "Dayforce",
+      text: "Aneeq consistently delivers beyond expectations. His ability to architect complex AI systems while keeping code clean and maintainable is rare for someone at his career stage.",
+      linkedIn: "https://linkedin.com/in/janesmith",
+    },
+    {
+      id: "rec-2",
+      author: "John Doe",
+      role: "Staff Engineer",
+      company: "Koho Financial",
+      text: "Working with Aneeq was a pleasure. He took ownership of the Google Pay integration end-to-end and drove it to $2M in transactions with minimal oversight.",
+    },
+    {
+      id: "rec-3",
+      author: "Alex Chen",
+      role: "Engineering Lead",
+      company: "Learning Mode AI",
+      text: "Aneeq ramped up on our Go microservices stack incredibly fast and shipped production-quality features in his first week. Strong communicator and team player.",
+      linkedIn: "https://linkedin.com/in/alexchen",
+    },
   ],
 };
