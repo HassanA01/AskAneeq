@@ -66,10 +66,9 @@ web/src/
       <ComponentName>.tsx          # Implementation
       <ComponentName>.test.tsx     # Tests
       index.ts                     # Barrel export
-components/
-  RecommendationsCard/                 # Testimonials view
-  AvailabilityCard/                    # Booking link view
-  SkillComparisonView/                 # Proficiency comparison view
+    RecommendationsCard/           # Testimonials view
+    AvailabilityCard/              # Booking link view
+    SkillComparisonView/           # Proficiency comparison view
 
 docs/                              # Project documentation
   testing.md                       # Testing guide
