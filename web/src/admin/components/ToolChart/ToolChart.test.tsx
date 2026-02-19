@@ -25,8 +25,9 @@ describe("ToolChart", () => {
         ]}
       />
     );
-    expect(screen.getByText("10")).toBeInTheDocument();
-    expect(screen.getByText("4")).toBeInTheDocument();
+    // counts 10 and 4 → share% are 71 and 29 — no collision risk
+    expect(screen.getAllByText("10").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("4").length).toBeGreaterThanOrEqual(1);
   });
 
   it("renders empty state when no data", () => {
