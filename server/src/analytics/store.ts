@@ -65,3 +65,14 @@ export class AnalyticsStore {
     this.db.close();
   }
 }
+
+let _store: AnalyticsStore | null = null;
+
+export function initStore(dbPath: string): AnalyticsStore {
+  _store = new AnalyticsStore(dbPath);
+  return _store;
+}
+
+export function getStore(): AnalyticsStore | null {
+  return _store;
+}
