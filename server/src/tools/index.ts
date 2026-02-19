@@ -25,6 +25,7 @@ import {
   compareSkillsSchema,
   handleCompareSkills,
 } from "./compare-skills.js";
+import { askAnythingSchema, handleAskAnything } from "./ask-anything.js";
 
 export function registerTools(server: McpServer) {
   registerAppTool(
@@ -165,5 +166,25 @@ export function registerTools(server: McpServer) {
       },
     },
     handleCompareSkills,
+  );
+
+  registerAppTool(
+    server,
+    "ask_anything",
+    {
+      title: "Ask Anything About Aneeq",
+      description:
+        "Free-form search across all of Aneeq Hassan's profile data. Use this when the question doesn't fit a specific category — it will find the most relevant information.",
+      inputSchema: askAnythingSchema,
+      annotations: {
+        readOnlyHint: true,
+        openWorldHint: false,
+        destructiveHint: false,
+      },
+      _meta: {
+        ui: { resourceUri: "ui://widget/aneeq-profile.html" },
+      },
+    },
+    handleAskAnything,
   );
 }
