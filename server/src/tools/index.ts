@@ -17,6 +17,10 @@ import {
   getAvailabilitySchema,
   handleGetAvailability,
 } from "./get-availability.js";
+import {
+  getRecommendationsSchema,
+  handleGetRecommendations,
+} from "./get-recommendations.js";
 
 export function registerTools(server: McpServer) {
   registerAppTool(
@@ -117,5 +121,25 @@ export function registerTools(server: McpServer) {
       },
     },
     handleGetAvailability,
+  );
+
+  registerAppTool(
+    server,
+    "get_recommendations",
+    {
+      title: "Get Recommendations",
+      description:
+        "Retrieve testimonials and endorsements from people who have worked with Aneeq Hassan.",
+      inputSchema: getRecommendationsSchema,
+      annotations: {
+        readOnlyHint: true,
+        openWorldHint: false,
+        destructiveHint: false,
+      },
+      _meta: {
+        ui: { resourceUri: "ui://widget/aneeq-profile.html" },
+      },
+    },
+    handleGetRecommendations,
   );
 }
