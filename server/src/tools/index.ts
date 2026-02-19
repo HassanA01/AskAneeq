@@ -21,6 +21,10 @@ import {
   getRecommendationsSchema,
   handleGetRecommendations,
 } from "./get-recommendations.js";
+import {
+  compareSkillsSchema,
+  handleCompareSkills,
+} from "./compare-skills.js";
 
 export function registerTools(server: McpServer) {
   registerAppTool(
@@ -141,5 +145,25 @@ export function registerTools(server: McpServer) {
       },
     },
     handleGetRecommendations,
+  );
+
+  registerAppTool(
+    server,
+    "compare_skills",
+    {
+      title: "Compare Skills",
+      description:
+        "Look up and compare Aneeq Hassan's proficiency in one or more technologies. Pass up to 4 skill names.",
+      inputSchema: compareSkillsSchema,
+      annotations: {
+        readOnlyHint: true,
+        openWorldHint: false,
+        destructiveHint: false,
+      },
+      _meta: {
+        ui: { resourceUri: "ui://widget/aneeq-profile.html" },
+      },
+    },
+    handleCompareSkills,
   );
 }
