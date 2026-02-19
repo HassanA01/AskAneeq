@@ -43,6 +43,7 @@ describe("RecommendationsCard", () => {
     const link = screen.getByRole("link", { name: /LinkedIn/i });
     expect(link).toHaveAttribute("href", "https://linkedin.com/in/janesmith");
     expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   it("does not render LinkedIn link when not provided", () => {

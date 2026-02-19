@@ -16,9 +16,9 @@ export function SkillComparisonView({ data }: Props) {
     <div className="animate-fade-in">
       <h2 className="heading-md mb-3">Skill Comparison</h2>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        {data.map((skill) => (
+        {data.map((skill, i) => (
           <div
-            key={skill.name}
+            key={i}
             className="rounded-xl border border-default bg-surface p-4 shadow-sm flex flex-col gap-2"
           >
             <p className="text-sm font-medium">{skill.name}</p>
