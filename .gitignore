@@ -8,3 +8,4 @@ assets/*.html
 .DS_Store
 .claude
 SCALE_PLAN.md
+*.db
