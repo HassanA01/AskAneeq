@@ -1,3 +1,5 @@
+import { config as loadEnv } from "dotenv";
+loadEnv({ path: "../.env" }); // .env lives at repo root, cwd is server/
 import express, { type ErrorRequestHandler } from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -10,7 +12,9 @@ import {
   RESOURCE_MIME_TYPE,
 } from "@modelcontextprotocol/ext-apps/server";
 import { registerTools } from "./tools/index.js";
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { initStore } from "./analytics/store.js";
+import { createAdminRouter } from "./routes/admin.js";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { logger } from "./logger.js";
@@ -48,8 +52,8 @@ function createMcpServer() {
 
       try {
         const files = readdirSync(assetsDir);
-        const jsFile = files.find((f) => f.endsWith(".js"));
-        const cssFile = files.find((f) => f.endsWith(".css"));
+        const jsFile = files.find((f) => f.startsWith("main-") && f.endsWith(".js"));
+        const cssFile = files.find((f) => f.startsWith("main-") && f.endsWith(".css"));
 
         if (!jsFile || !cssFile) {
           throw new Error("JS or CSS file not found in assets");
@@ -93,6 +97,11 @@ function createMcpServer() {
 }
 
 const app = express();
+
+// Analytics store — initialize once at startup
+const analyticsStore = initStore(
+  process.env.ANALYTICS_DB_PATH ?? "./analytics.db"
+);
 
 // Security headers
 app.use(helmet());
@@ -155,6 +164,29 @@ app.get("/health", (_req, res) => {
   });
 });
 
+// Admin API — analytics data behind Bearer token auth
+app.use(
+  "/api/analytics",
+  createAdminRouter(analyticsStore, process.env.ADMIN_TOKEN)
+);
+
+// Serve built frontend assets (widget + admin JS/CSS bundles)
+app.use(express.static(join(__dirname, "../../assets")));
+
+// Admin dashboard — serves built React app
+app.get("/admin", (_req, res) => {
+  const adminHtmlPath = join(__dirname, "../../assets/admin.html");
+  if (existsSync(adminHtmlPath)) {
+    res.sendFile(adminHtmlPath);
+  } else {
+    res
+      .status(503)
+      .send(
+        "<p style='font-family:sans-serif;padding:2rem'>Admin dashboard not built. Run: <code>npm run build</code></p>"
+      );
+  }
+});
+
 // MCP endpoint — stateless, one server+transport per request (matches OpenAI quickstart)
 app.all("/mcp", mcpRateLimit, express.json(), async (req, res) => {
   const requestId = res.getHeader("X-Request-Id") as string;
@@ -196,6 +228,8 @@ const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   }
 };
 app.use(errorHandler);
+
+process.on("exit", () => analyticsStore.close());
 
 app.listen(PORT, () => {
   logger.info({ port: PORT }, "AskAneeq MCP Server started");

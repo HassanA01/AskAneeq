@@ -46,6 +46,15 @@ export interface Contact {
   portfolio: string;
 }
 
+export interface Recommendation {
+  id: string;
+  author: string;
+  role: string;
+  company: string;
+  text: string;
+  linkedIn?: string;
+}
+
 export interface AneeqData {
   overview: {
     name: string;
@@ -60,6 +69,7 @@ export interface AneeqData {
   education: Education[];
   contact: Contact;
   hobbies: string[];
+  recommendations: Recommendation[];
 }
 
 export const aneeqData: AneeqData = {
@@ -69,7 +79,7 @@ export const aneeqData: AneeqData = {
     tagline:
       "Building intelligent systems that deliver meaningful impact. Over 3 years of experience developing AI solutions and scalable applications.",
     yearsExperience: 3,
-    languages: ["English", "French", "Spanish", "Arabic", "Urdu"],
+    languages: ["English", "French", "Arabic", "Urdu"],
   },
 
   experience: [
@@ -177,6 +187,41 @@ export const aneeqData: AneeqData = {
 
   projects: [
     {
+      id: "semanticache",
+      name: "SemantiCache",
+      description:
+        "Semantic caching system that reduces LLM API costs by 35% using vector similarity search with HNSW indexes. Supports multiple embedding providers (OpenAI, HuggingFace) and vector databases (Redis, FAISS, pgvector) swappable via configuration. Includes request batching, two-stage retrieval with cross-encoder reranking for sub-5ms query latency, and Grafana dashboards for real-time cache performance and cost tracking.",
+      techStack: [
+        "TypeScript",
+        "Grafana",
+        "Prometheus",
+        "Redis",
+        "Docker",
+        "OpenAI API",
+        "Express",
+      ],
+      impact: "35% reduction in LLM API costs",
+      metrics: "Sub-5ms query latency",
+      featured: true,
+    },
+    {
+      id: "askaneeq",
+      name: "AskAneeq",
+      description:
+        "ChatGPT app built with the OpenAI Apps SDK that lets users ask questions about Aneeq. MCP server exposes tools (ask_about_aneeq, get_resume, search_projects, get_availability, compare_skills, and more) via StreamableHTTP; React widget renders rich views inside the ChatGPT iframe.",
+      techStack: [
+        "TypeScript",
+        "Node.js",
+        "Express",
+        "React",
+        "Vite",
+        "TailwindCSS",
+        "OpenAI Apps SDK",
+        "MCP",
+      ],
+      featured: true,
+    },
+    {
       id: "mailflowai",
       name: "MailflowAI",
       description:
@@ -251,7 +296,6 @@ export const aneeqData: AneeqData = {
       ],
       links: {
         github: "https://github.com/HassanA01/myriad-cro-website",
-        demo: "https://myriadcro.com",
       },
       featured: true,
     },
@@ -394,5 +438,31 @@ export const aneeqData: AneeqData = {
     "Travel",
     "Fitness",
     "Food & Culinary Exploration",
+  ],
+
+  recommendations: [
+    {
+      id: "rec-1",
+      author: "Jane Smith",
+      role: "Senior Engineering Manager",
+      company: "Dayforce",
+      text: "Aneeq consistently delivers beyond expectations. His ability to architect complex AI systems while keeping code clean and maintainable is rare for someone at his career stage.",
+      linkedIn: "https://linkedin.com/in/janesmith",
+    },
+    {
+      id: "rec-2",
+      author: "John Doe",
+      role: "Staff Engineer",
+      company: "Koho Financial",
+      text: "Working with Aneeq was a pleasure. He took ownership of the Google Pay integration end-to-end and drove it to $2M in transactions with minimal oversight.",
+    },
+    {
+      id: "rec-3",
+      author: "Alex Chen",
+      role: "Engineering Lead",
+      company: "Learning Mode AI",
+      text: "Aneeq ramped up on our Go microservices stack incredibly fast and shipped production-quality features in his first week. Strong communicator and team player.",
+      linkedIn: "https://linkedin.com/in/alexchen",
+    },
   ],
 };

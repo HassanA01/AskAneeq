@@ -5,6 +5,9 @@ import { ProjectsGallery } from "./components/ProjectsGallery";
 import { SkillsView } from "./components/SkillsView";
 import { ContactCard } from "./components/ContactCard";
 import { EducationCard } from "./components/EducationCard";
+import { RecommendationsCard } from "./components/RecommendationsCard";
+import { AvailabilityCard } from "./components/AvailabilityCard";
+import { SkillComparisonView } from "./components/SkillComparisonView";
 import { HelpCircle } from "lucide-react";
 import { Badge } from "@openai/apps-sdk-ui/components/Badge";
 
@@ -94,6 +97,12 @@ export function App() {
           {data.contact && <ContactCard data={data.contact} />}
         </div>
       )}
+
+      {view === "recommendations" && <RecommendationsCard data={data} />}
+
+      {view === "availability" && <AvailabilityCard data={data} />}
+
+      {view === "skill-comparison" && <SkillComparisonView data={data} />}
     </div>
   );
 }

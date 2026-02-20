@@ -9,6 +9,23 @@ import {
   searchProjectsSchema,
   handleSearchProjects,
 } from "./search-projects.js";
+import {
+  trackAnalyticsSchema,
+  handleTrackAnalytics,
+} from "./track-analytics.js";
+import {
+  getAvailabilitySchema,
+  handleGetAvailability,
+} from "./get-availability.js";
+import {
+  getRecommendationsSchema,
+  handleGetRecommendations,
+} from "./get-recommendations.js";
+import {
+  compareSkillsSchema,
+  handleCompareSkills,
+} from "./compare-skills.js";
+import { askAnythingSchema, handleAskAnything } from "./ask-anything.js";
 
 export function registerTools(server: McpServer) {
   registerAppTool(
@@ -57,7 +74,7 @@ export function registerTools(server: McpServer) {
     {
       title: "Search Aneeq's Projects",
       description:
-        "Search through Aneeq Hassan's projects by keyword or technology. Returns matching projects with details.",
+        "Search through Aneeq Hassan's projects by keyword or technology. When the user says 'search', 'find', or mentions a topic/tech, pass that as the query or technology parameter. Omit both only when they want to see all projects.",
       inputSchema: searchProjectsSchema,
       annotations: {
         readOnlyHint: true,
@@ -69,5 +86,105 @@ export function registerTools(server: McpServer) {
       },
     },
     handleSearchProjects,
+  );
+
+  registerAppTool(
+    server,
+    "track_analytics",
+    {
+      title: "Track Analytics",
+      description:
+        "Log a query event for analytics. Call this alongside other tools to record what visitors are asking about Aneeq.",
+      inputSchema: trackAnalyticsSchema,
+      annotations: {
+        readOnlyHint: false,
+        openWorldHint: false,
+        destructiveHint: false,
+      },
+      _meta: {
+        ui: { resourceUri: "ui://widget/aneeq-profile.html" },
+      },
+    },
+    handleTrackAnalytics,
+  );
+
+  registerAppTool(
+    server,
+    "get_availability",
+    {
+      title: "Get Availability",
+      description:
+        "Get a link to schedule time with Aneeq Hassan — for coffee chats, interviews, or collaboration.",
+      inputSchema: getAvailabilitySchema,
+      annotations: {
+        readOnlyHint: true,
+        openWorldHint: false,
+        destructiveHint: false,
+      },
+      _meta: {
+        ui: { resourceUri: "ui://widget/aneeq-profile.html" },
+      },
+    },
+    handleGetAvailability,
+  );
+
+  registerAppTool(
+    server,
+    "get_recommendations",
+    {
+      title: "Get Recommendations",
+      description:
+        "Retrieve testimonials and endorsements from people who have worked with Aneeq Hassan.",
+      inputSchema: getRecommendationsSchema,
+      annotations: {
+        readOnlyHint: true,
+        openWorldHint: false,
+        destructiveHint: false,
+      },
+      _meta: {
+        ui: { resourceUri: "ui://widget/aneeq-profile.html" },
+      },
+    },
+    handleGetRecommendations,
+  );
+
+  registerAppTool(
+    server,
+    "compare_skills",
+    {
+      title: "Compare Skills",
+      description:
+        "Look up and compare Aneeq Hassan's proficiency in one or more technologies. Pass up to 4 skill names.",
+      inputSchema: compareSkillsSchema,
+      annotations: {
+        readOnlyHint: true,
+        openWorldHint: false,
+        destructiveHint: false,
+      },
+      _meta: {
+        ui: { resourceUri: "ui://widget/aneeq-profile.html" },
+      },
+    },
+    handleCompareSkills,
+  );
+
+  registerAppTool(
+    server,
+    "ask_anything",
+    {
+      title: "Ask Anything About Aneeq",
+      description:
+        "Free-form search across all of Aneeq Hassan's profile data. Use this when the question doesn't fit a specific category — it will find the most relevant information.",
+      inputSchema: askAnythingSchema,
+      annotations: {
+        readOnlyHint: true,
+        openWorldHint: false,
+        destructiveHint: false,
+      },
+      _meta: {
+        ui: { resourceUri: "ui://widget/aneeq-profile.html" },
+      },
+    },
+    handleAskAnything,
   );
 }

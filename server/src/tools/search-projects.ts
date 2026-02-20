@@ -2,11 +2,14 @@ import { z } from "zod";
 import { aneeqData } from "../data/aneeq-data.js";
 
 export const searchProjectsSchema = {
-  query: z.string().optional().describe("Search term to filter projects"),
+  query: z
+    .string()
+    .optional()
+    .describe("Search term to filter by project name or description"),
   technology: z
     .string()
     .optional()
-    .describe("Filter by specific technology"),
+    .describe("Filter by specific technology (e.g. React, TypeScript)"),
 };
 
 export type SearchProjectsInput = { query?: string; technology?: string };

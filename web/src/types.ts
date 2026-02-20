@@ -46,6 +46,21 @@ export interface Contact {
   portfolio: string;
 }
 
+export interface Recommendation {
+  id: string;
+  author: string;
+  role: string;
+  company: string;
+  text: string;
+  linkedIn?: string;
+}
+
+export interface SkillMatch {
+  name: string;
+  proficiency: "expert" | "advanced" | "intermediate" | "not found";
+  category: string | null;
+}
+
 export interface Overview {
   name: string;
   title: string;
@@ -62,7 +77,11 @@ export type ViewType =
   | "education"
   | "contact"
   | "hobbies"
-  | "resume";
+  | "resume"
+  | "recommendations"
+  | "availability"
+  | "skill-comparison"
+  | "analytics";
 
 export interface ToolResultData {
   view: ViewType;
