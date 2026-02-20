@@ -110,3 +110,22 @@ describe("Tool response shapes", () => {
     expect(res.body.result.content[0].type).toBe("text");
   });
 });
+
+describe("Widget HTML integrity", () => {
+  it("widget resource HTML has JS inlined, not linked", async () => {
+    const res = await mcp(
+      rpcCall("resources/read", { uri: "ui://widget/aneeq-profile.html" })
+    );
+    expect(res.status).toBe(200);
+
+    const html: string = res.body.result.contents[0].text;
+
+    // JS must be inlined as text content, not linked as a src attribute
+    expect(html).toContain('<script type="module">');
+    expect(html).not.toMatch(/<script\s[^>]*src=/);
+
+    // CSS must be inlined in a <style> tag
+    expect(html).toContain("<style>");
+    expect(html).not.toMatch(/<link\s[^>]*rel=["']stylesheet["']/);
+  });
+});
