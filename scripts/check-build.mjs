@@ -63,7 +63,7 @@ if (clientJs.length > 0) {
 }
 
 // 3. Bundle is self-contained (no external import statements)
-if (mainJs.length === 1) {
+if (mainJs.length >= 1) {
   const content = readFileSync(join(assetsDir, mainJs[0]), "utf-8");
   // Match bare `import "..."` or `import '...'` at the start of a statement
   if (/(?:^|;|\})\s*import\s*["']/.test(content)) {
