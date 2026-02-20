@@ -129,3 +129,26 @@ describe("Widget HTML integrity", () => {
     expect(html).not.toMatch(/<link\s[^>]*rel=["']stylesheet["']/);
   });
 });
+
+describe("Admin auth", () => {
+  it("returns 401 or 503 with no Authorization header", async () => {
+    const res = await request(app).get("/api/analytics/summary");
+    expect([401, 503]).toContain(res.status);
+  });
+
+  it("returns 401 with wrong token", async () => {
+    const res = await request(app)
+      .get("/api/analytics/summary")
+      .set("Authorization", "Bearer wrong-token");
+    expect(res.status).toBe(401);
+  });
+
+  it("returns 200 with correct token and expected shape", async () => {
+    const res = await request(app)
+      .get("/api/analytics/summary")
+      .set("Authorization", "Bearer test-token");
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("toolCounts");
+    expect(res.body).toHaveProperty("categoryCounts");
+  });
+});
