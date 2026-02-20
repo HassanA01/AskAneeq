@@ -14,11 +14,16 @@ A ChatGPT app built with the OpenAI Apps SDK that lets users ask questions about
 
 ## Tools
 
-| Tool              | Description                                                                                          |
-| ----------------- | ---------------------------------------------------------------------------------------------------- |
-| `ask_about_aneeq` | Query by category: overview, experience, projects, skills, education, contact, hobbies, current-role |
-| `get_resume`      | Full or summary resume format                                                                        |
-| `search_projects` | Filter projects by keyword or technology                                                             |
+| Tool                | Description                                                                                          |
+| ------------------- | ---------------------------------------------------------------------------------------------------- |
+| `ask_about_aneeq`   | Query by category: overview, experience, projects, skills, education, contact, hobbies, current-role |
+| `get_resume`        | Full or summary resume format                                                                        |
+| `search_projects`   | Filter projects by keyword or technology                                                             |
+| `ask_anything`      | Free-form Q&A — keyword search across all data sections                                              |
+| `get_availability`  | Return Calendly booking link (reads `CALENDLY_URL` env var)                                          |
+| `compare_skills`    | Compare proficiency across 2–4 skills side-by-side                                                   |
+| `get_recommendations` | Return testimonials/endorsements with optional limit                                               |
+| `track_analytics`   | Log query events for analytics (tool + query + category)                                             |
 
 ## Commands
 
@@ -41,18 +46,42 @@ server/src/
   server.ts                        # Express + MCP transport + middleware
   logger.ts                        # Pino structured logging
   logger.test.ts                   # Logger unit tests
+  analytics/
+    store.ts                       # AnalyticsStore (SQLite via better-sqlite3)
+    store.test.ts
+  routes/
+    admin.ts                       # Admin API router (/api/analytics/*)
+    admin.test.ts
+  search/
+    provider.ts                    # SearchProvider interface
+    keyword-provider.ts            # KeywordSearchProvider implementation
+    keyword-provider.test.ts
   tools/index.ts                   # Tool registry
   tools/ask-about.ts               # Category Q&A tool
   tools/get-resume.ts              # Resume tool
   tools/search-projects.ts         # Project search tool
+  tools/ask-anything.ts            # Free-form keyword search tool
+  tools/get-availability.ts        # Calendly booking link tool
+  tools/compare-skills.ts          # Skill comparison tool
+  tools/get-recommendations.ts     # Testimonials tool
+  tools/track-analytics.ts         # Analytics event logging tool
   tools/*.test.ts                  # Tool unit tests
   data/aneeq-data.ts               # All data about Aneeq
 
 web/src/
-  App.tsx                          # View router
+  App.tsx                          # View router (widget)
   hooks/use-tool-result.ts         # MCP bridge hook
   test/setup.tsx                   # Test mocks and setup
-  components/                      # One folder per component
+  admin/
+    main.tsx                       # Admin app entry point
+    App.tsx                        # Login gate + dashboard shell
+    App.test.tsx
+    admin.css                      # Tailwind entry for admin
+    components/
+      ToolChart/                   # Tool call bar chart
+      CategoryChart/               # Category breakdown bar chart
+      QueryLog/                    # Recent events table
+  components/                      # One folder per component (widget)
     <ComponentName>/
       <ComponentName>.tsx          # Implementation
       <ComponentName>.test.tsx     # Tests

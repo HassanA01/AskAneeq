@@ -22,6 +22,16 @@ AskAneeq/
 │       ├── logger.test.ts        # Logger unit tests
 │       ├── data/
 │       │   └── aneeq-data.ts     # All profile data (single source of truth)
+│       ├── analytics/
+│       │   ├── store.ts          # AnalyticsStore (SQLite via better-sqlite3)
+│       │   └── store.test.ts
+│       ├── routes/
+│       │   ├── admin.ts          # Admin API router (/api/analytics/*)
+│       │   └── admin.test.ts
+│       ├── search/
+│       │   ├── provider.ts       # SearchProvider interface + SearchResult type
+│       │   ├── keyword-provider.ts # KeywordSearchProvider implementation
+│       │   └── keyword-provider.test.ts
 │       └── tools/
 │           ├── index.ts          # Tool registry
 │           ├── ask-about.ts      # Category Q&A tool
@@ -29,7 +39,17 @@ AskAneeq/
 │           ├── get-resume.ts     # Resume tool
 │           ├── get-resume.test.ts
 │           ├── search-projects.ts # Project search tool
-│           └── search-projects.test.ts
+│           ├── search-projects.test.ts
+│           ├── ask-anything.ts   # Free-form keyword search tool
+│           ├── ask-anything.test.ts
+│           ├── get-availability.ts # Calendly booking link tool
+│           ├── get-availability.test.ts
+│           ├── compare-skills.ts # Skill comparison tool
+│           ├── compare-skills.test.ts
+│           ├── get-recommendations.ts # Testimonials tool
+│           ├── get-recommendations.test.ts
+│           ├── track-analytics.ts # Analytics event logging tool
+│           └── track-analytics.test.ts
 │
 ├── web/                          # React Widget (Vite + Tailwind)
 │   ├── package.json
@@ -37,10 +57,11 @@ AskAneeq/
 │   ├── vitest.config.ts
 │   ├── vite.config.ts
 │   ├── index.html
+│   ├── admin.html                    # Admin dashboard HTML entry
 │   └── src/
-│       ├── index.tsx             # React entry point
+│       ├── index.tsx             # React entry point (widget)
 │       ├── index.css             # Tailwind v4 + OpenAI SDK styles
-│       ├── App.tsx               # View router
+│       ├── App.tsx               # View router (widget)
 │       ├── types.ts              # TypeScript interfaces
 │       ├── assets/
 │       │   └── profile-image.ts  # Base64 profile photo
@@ -48,7 +69,25 @@ AskAneeq/
 │       │   └── use-tool-result.ts # MCP bridge hook
 │       ├── test/
 │       │   └── setup.tsx         # Test mocks and setup
-│       └── components/           # One folder per component
+│       ├── admin/                # Admin dashboard app
+│       │   ├── main.tsx          # Admin app entry point
+│       │   ├── App.tsx           # Login gate + dashboard shell
+│       │   ├── App.test.tsx
+│       │   ├── admin.css         # Tailwind entry for admin
+│       │   └── components/
+│       │       ├── ToolChart/
+│       │       │   ├── ToolChart.tsx
+│       │       │   ├── ToolChart.test.tsx
+│       │       │   └── index.ts
+│       │       ├── CategoryChart/
+│       │       │   ├── CategoryChart.tsx
+│       │       │   ├── CategoryChart.test.tsx
+│       │       │   └── index.ts
+│       │       └── QueryLog/
+│       │           ├── QueryLog.tsx
+│       │           ├── QueryLog.test.tsx
+│       │           └── index.ts
+│       └── components/           # One folder per component (widget)
 │           ├── ProfileCard/
 │           │   ├── ProfileCard.tsx
 │           │   ├── ProfileCard.test.tsx

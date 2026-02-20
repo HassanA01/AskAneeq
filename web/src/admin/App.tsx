@@ -323,7 +323,7 @@ export function App() {
     } else {
       setReady(true);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   /** Called by LoginScreen on submit */
   async function handleLogin(
