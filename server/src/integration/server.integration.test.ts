@@ -117,6 +117,8 @@ describe("Widget HTML integrity", () => {
       rpcCall("resources/read", { uri: "ui://widget/aneeq-profile.html" })
     );
     expect(res.status).toBe(200);
+    expect(res.body.result, "resources/read returned an error — check MCP server response").toBeDefined();
+    expect(res.body.result.contents).toHaveLength(1);
 
     const html: string = res.body.result.contents[0].text;
 
@@ -177,7 +179,10 @@ describe("Analytics write-through", () => {
       query: string | null;
     }>;
     const match = events.find(
-      (e) => e.tool === "ask_about_aneeq" && e.category === "integration-test"
+      (e) =>
+        e.tool === "ask_about_aneeq" &&
+        e.category === "integration-test" &&
+        e.query === "write-through test"
     );
     expect(match).toBeDefined();
   });
