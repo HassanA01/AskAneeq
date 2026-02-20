@@ -14,9 +14,11 @@
     "test": "npm run test:server && npm run test:web",
     "test:server": "npm test -w server",
     "test:web": "npm test -w web",
+    "test:integration": "npm run test:integration -w server",
+    "test:build": "node scripts/check-build.mjs",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit -p server/tsconfig.json && tsc --noEmit -p web/tsconfig.json",
-    "ci": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "ci": "npm run lint && npm run typecheck && npm run test && npm run build && npm run test:integration && npm run test:build",
     "ngrok": "ngrok http --url=proreduction-accommodatingly-clarice.ngrok-free.dev 8000"
   },
   "devDependencies": {

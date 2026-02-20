@@ -32,11 +32,19 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
-      - name: Test server
+      - name: Test server (unit)
         run: npm run test:server
 
-      - name: Test web
+      - name: Test web (unit)
         run: npm run test:web
 
       - name: Build
         run: npm run build
+
+      - name: Test integration
+        run: npm run test:integration
+        env:
+          ADMIN_TOKEN: test-token
+
+      - name: Check build artifacts
+        run: npm run test:build
