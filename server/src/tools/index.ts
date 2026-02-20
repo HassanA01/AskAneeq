@@ -74,7 +74,7 @@ export function registerTools(server: McpServer) {
     {
       title: "Search Aneeq's Projects",
       description:
-        "Search through Aneeq Hassan's projects by keyword or technology. Returns matching projects with details.",
+        "Search through Aneeq Hassan's projects by keyword or technology. When the user says 'search', 'find', or mentions a topic/tech, pass that as the query or technology parameter. Omit both only when they want to see all projects.",
       inputSchema: searchProjectsSchema,
       annotations: {
         readOnlyHint: true,
