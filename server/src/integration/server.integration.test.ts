@@ -152,3 +152,33 @@ describe("Admin auth", () => {
     expect(res.body).toHaveProperty("categoryCounts");
   });
 });
+
+describe("Analytics write-through", () => {
+  it("track_analytics persists event readable via admin API", async () => {
+    // Fire an analytics event through the MCP tool
+    const trackRes = await mcp(
+      toolCall("track_analytics", {
+        tool: "ask_about_aneeq",
+        category: "integration-test",
+        query: "write-through test",
+      })
+    );
+    expect(trackRes.status).toBe(200);
+
+    // Read events back via admin API
+    const eventsRes = await request(app)
+      .get("/api/analytics/events")
+      .set("Authorization", "Bearer test-token");
+    expect(eventsRes.status).toBe(200);
+
+    const events = eventsRes.body.events as Array<{
+      tool: string;
+      category: string | null;
+      query: string | null;
+    }>;
+    const match = events.find(
+      (e) => e.tool === "ask_about_aneeq" && e.category === "integration-test"
+    );
+    expect(match).toBeDefined();
+  });
+});
