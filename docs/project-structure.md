@@ -108,9 +108,21 @@ AskAneeq/
 │           │   ├── ContactCard.tsx
 │           │   ├── ContactCard.test.tsx
 │           │   └── index.ts
-│           └── EducationCard/
-│               ├── EducationCard.tsx
-│               ├── EducationCard.test.tsx
+│           ├── EducationCard/
+│           │   ├── EducationCard.tsx
+│           │   ├── EducationCard.test.tsx
+│           │   └── index.ts
+│           ├── RecommendationsCard/
+│           │   ├── RecommendationsCard.tsx
+│           │   ├── RecommendationsCard.test.tsx
+│           │   └── index.ts
+│           ├── AvailabilityCard/
+│           │   ├── AvailabilityCard.tsx
+│           │   ├── AvailabilityCard.test.tsx
+│           │   └── index.ts
+│           └── SkillComparisonView/
+│               ├── SkillComparisonView.tsx
+│               ├── SkillComparisonView.test.tsx
 │               └── index.ts
 │
 ├── docs/                         # Project documentation

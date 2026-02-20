@@ -31,11 +31,12 @@ Located in `server/src/tools/*.test.ts`. Pure unit tests for MCP tool handlers �
 - `ask-about.test.ts` — All 8 categories return correct view, data, and text content
 - `get-resume.test.ts` — Full/summary formats, featured project filtering, data assembly
 - `search-projects.test.ts` — Query/technology filtering, case-insensitivity, empty results, combined filters
-- `ask-anything.test.ts` — Keyword search across all data fields, empty results, matched highlights
-- `get-availability.test.ts` — Returns correct Calendly booking URL and view
-- `compare-skills.test.ts` — Skill overlap detection, match percentage, missing/matching skills
-- `get-recommendations.test.ts` — Returns testimonials with correct structure
+- `ask-anything.test.ts` — known topic returns result, correct view on top hit, fallback to overview on no match, searchQuery in structured content
+- `get-availability.test.ts` — returns CALENDLY_URL from env, falls back to portfolio URL when unset
+- `compare-skills.test.ts` — known/unknown skills, case-insensitivity, category lookup, null category
+- `get-recommendations.test.ts` — all recs returned, limit respected, handles empty array
 - `track-analytics.test.ts` — `getStore().insert()` called with correct tool/category/query payload; store mock injected via `vi.mock`
+- `keyword-provider.test.ts` — scoring, case-insensitivity, sort order, empty/no-match cases
 
 ### Analytics Store Tests
 
@@ -72,6 +73,9 @@ Located in `web/src/components/<ComponentName>/<ComponentName>.test.tsx`. Compon
 - Interactive elements (links with correct hrefs, `target="_blank"`)
 - Conditional rendering (featured badges, impact sections, empty states)
 - Focus highlighting (`ExperienceTimeline` with `focusId`)
+- `RecommendationsCard` — author/role/company/text rendered; LinkedIn link conditional; rel="noopener noreferrer" enforced
+- `AvailabilityCard` — booking link with correct href, target="_blank", rel="noopener noreferrer"
+- `SkillComparisonView` — skill names, proficiency labels, category labels, not-found state
 
 ### Admin Dashboard Tests
 

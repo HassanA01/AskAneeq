@@ -14,16 +14,16 @@ A ChatGPT app built with the OpenAI Apps SDK that lets users ask questions about
 
 ## Tools
 
-| Tool                | Description                                                                                          |
-| ------------------- | ---------------------------------------------------------------------------------------------------- |
-| `ask_about_aneeq`   | Query by category: overview, experience, projects, skills, education, contact, hobbies, current-role |
-| `get_resume`        | Full or summary resume format                                                                        |
-| `search_projects`   | Filter projects by keyword or technology                                                             |
-| `ask_anything`      | Free-form Q&A — keyword search across all data sections                                              |
-| `get_availability`  | Return Calendly booking link (reads `CALENDLY_URL` env var)                                          |
-| `compare_skills`    | Compare proficiency across 2–4 skills side-by-side                                                   |
-| `get_recommendations` | Return testimonials/endorsements with optional limit                                               |
-| `track_analytics`   | Log query events for analytics (tool + query + category)                                             |
+| Tool                  | Description                                                                                          |
+| --------------------- | ---------------------------------------------------------------------------------------------------- |
+| `ask_about_aneeq`     | Query by category: overview, experience, projects, skills, education, contact, hobbies, current-role |
+| `get_resume`          | Full or summary resume format                                                                        |
+| `search_projects`     | Filter projects by keyword or technology                                                             |
+| `ask_anything`        | Free-form keyword search across all profile data                                                     |
+| `get_availability`    | Return a Calendly booking link (reads `CALENDLY_URL` env var)                                        |
+| `compare_skills`      | Look up proficiency for 1–4 skills side-by-side                                                     |
+| `get_recommendations` | Return testimonials and endorsements                                                                  |
+| `track_analytics`     | Log query events for analytics (tool + query + category) and persist to SQLite                       |
 
 ## Commands
 
@@ -67,6 +67,9 @@ server/src/
   tools/track-analytics.ts         # Analytics event logging tool
   tools/*.test.ts                  # Tool unit tests
   data/aneeq-data.ts               # All data about Aneeq
+  search/                              # Search abstraction layer
+    provider.ts                        # SearchProvider interface
+    keyword-provider.ts                # KeywordSearchProvider (default)
 
 web/src/
   App.tsx                          # View router (widget)
@@ -86,6 +89,9 @@ web/src/
       <ComponentName>.tsx          # Implementation
       <ComponentName>.test.tsx     # Tests
       index.ts                     # Barrel export
+    RecommendationsCard/           # Testimonials view
+    AvailabilityCard/              # Booking link view
+    SkillComparisonView/           # Proficiency comparison view
 
 docs/                              # Project documentation
   testing.md                       # Testing guide
