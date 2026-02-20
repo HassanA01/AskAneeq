@@ -1,3 +1,5 @@
+import { config as loadEnv } from "dotenv";
+loadEnv({ path: "../.env" }); // .env lives at repo root, cwd is server/
 import express, { type ErrorRequestHandler } from "express";
 import cors from "cors";
 import helmet from "helmet";
