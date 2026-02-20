@@ -1,6 +1,10 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, afterAll } from "vitest";
 import request from "supertest";
-import { app } from "../app.js";
+import { app, analyticsStore } from "../app.js";
+
+afterAll(() => {
+  analyticsStore.close();
+});
 
 // Helper: build a JSON-RPC tools/call payload
 function toolCall(name: string, args: Record<string, unknown> = {}, id = 1) {
@@ -28,12 +32,15 @@ async function mcp(body: object) {
     .send(body);
 }
 
-function assertToolShape(result: { content: unknown[]; structuredContent: Record<string, unknown> }) {
-  expect(result.content).toHaveLength(1);
-  expect((result.content[0] as { type: string }).type).toBe("text");
-  expect(typeof result.structuredContent.view).toBe("string");
-  expect((result.structuredContent.view as string).length).toBeGreaterThan(0);
-  expect(result.structuredContent.data).toBeDefined();
+function assertToolShape(result: unknown) {
+  expect(result, "tool result must be defined (check for JSON-RPC error in res.body)").toBeDefined();
+  expect(result).not.toBeNull();
+  const r = result as { content: unknown[]; structuredContent: Record<string, unknown> };
+  expect(r.content).toHaveLength(1);
+  expect((r.content[0] as { type: string }).type).toBe("text");
+  expect(typeof r.structuredContent.view).toBe("string");
+  expect((r.structuredContent.view as string).length).toBeGreaterThan(0);
+  expect(r.structuredContent.data).toBeDefined();
 }
 
 describe("Tool response shapes", () => {
