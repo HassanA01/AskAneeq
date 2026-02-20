@@ -50,8 +50,8 @@ function createMcpServer() {
 
       try {
         const files = readdirSync(assetsDir);
-        const jsFile = files.find((f) => f.endsWith(".js"));
-        const cssFile = files.find((f) => f.endsWith(".css"));
+        const jsFile = files.find((f) => f.startsWith("main-") && f.endsWith(".js"));
+        const cssFile = files.find((f) => f.startsWith("main-") && f.endsWith(".css"));
 
         if (!jsFile || !cssFile) {
           throw new Error("JS or CSS file not found in assets");
@@ -167,6 +167,9 @@ app.use(
   "/api/analytics",
   createAdminRouter(analyticsStore, process.env.ADMIN_TOKEN)
 );
+
+// Serve built frontend assets (widget + admin JS/CSS bundles)
+app.use(express.static(join(__dirname, "../../assets")));
 
 // Admin dashboard — serves built React app
 app.get("/admin", (_req, res) => {
