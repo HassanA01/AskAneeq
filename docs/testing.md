@@ -7,14 +7,20 @@ AskAneeq uses [Vitest](https://vitest.dev/) for both server and widget testing. 
 ## Running Tests
 
 ```bash
-# Run all tests
+# Run all unit tests
 npm test
 
-# Run server tests only
+# Run server unit tests only
 npm run test:server
 
-# Run web widget tests only
+# Run web widget unit tests only
 npm run test:web
+
+# Run integration tests (requires a prior build for widget HTML integrity test)
+npm run test:integration
+
+# Check build artifact integrity (no chunk splitting)
+npm run test:build
 
 # Watch mode (in each workspace)
 npm run test:watch -w server
@@ -93,6 +99,24 @@ Located in `web/src/admin/`. Component and integration tests for the admin dashb
 - `@openai/apps-sdk-ui` components (Avatar, Badge)
 - `@modelcontextprotocol/ext-apps/react` (useApp hook)
 - Profile image asset (avoids bundling 65KB base64 in tests)
+
+## Integration Tests
+
+Located in `server/src/integration/server.integration.test.ts`. Full HTTP-level tests using `supertest` against the real Express app (imported from `app.ts` without port binding). Requires `ADMIN_TOKEN` env var. Run **after** `npm run build` so the widget HTML integrity test has real build artifacts.
+
+**What's tested (16 tests):**
+- **Tool response shapes** — all 8 tools (`ask_about_aneeq`, `get_resume`, `search_projects`, `ask_anything`, `get_availability`, `compare_skills`, `get_recommendations`, `track_analytics`) return valid `structuredContent.view` string and `content[0].type === "text"`
+- **Widget HTML integrity** — `resources/read` on the widget HTML returns JS inlined as `<script type="module">` (no `src=` attribute) and CSS inlined in `<style>` (no `<link rel="stylesheet">`) — catches the Vite chunk-split regression that broke the ChatGPT sandbox
+- **Admin auth** — no token → 401/503, wrong token → 401, correct token → 200 with `{ toolCounts, categoryCounts }`
+- **Analytics write-through** — calling `track_analytics` via MCP persists the event, which is then readable via `GET /api/analytics/events`
+
+**Config:** `server/vitest.integration.config.ts` — Node environment, 30 s timeout per test, no parallelism (single thread to avoid SQLite contention).
+
+## Build Artifact Check
+
+Script: `scripts/check-build.mjs`
+
+Scans `assets/` for `main-*.js` files and asserts none contain external `import` statements. Exits non-zero if the bundle has been split into multiple chunks — this would break the ChatGPT sandboxed iframe which cannot resolve relative module URLs.
 
 ## Adding New Tests
 

@@ -7,10 +7,10 @@ GitHub Actions runs on every push to `main` and every pull request targeting `ma
 ## Pipeline Steps
 
 ```
-Install dependencies → Lint → Type check → Test server → Test web → Build
+Install dependencies → Lint → Type check → Test server (unit) → Test web (unit) → Build → Test integration → Check build artifacts
 ```
 
-Each step must pass before the next runs. The pipeline tests against Node.js 20 and 22.
+Each step must pass before the next runs. Build runs before integration tests so the widget HTML integrity test has real assets to validate. The pipeline tests against Node.js 20 and 22.
 
 ## Configuration
 
@@ -23,9 +23,11 @@ File: `.github/workflows/ci.yml`
 | Install | `npm ci` | Dependencies resolve cleanly from lockfile |
 | Lint | `npm run lint` | ESLint rules pass (TypeScript-aware) |
 | Type check | `npm run typecheck` | Both server and web compile without type errors |
-| Test server | `npm run test:server` | All server tool unit tests pass |
-| Test web | `npm run test:web` | All widget component tests pass |
+| Test server (unit) | `npm run test:server` | All server tool unit tests pass |
+| Test web (unit) | `npm run test:web` | All widget component tests pass |
 | Build | `npm run build` | Web widget builds (Vite) and server compiles (tsc) |
+| Test integration | `npm run test:integration` | Full HTTP integration tests: tool shapes, widget HTML integrity, admin auth, analytics write-through |
+| Check build artifacts | `npm run test:build` | Asserts `main-*.js` is self-contained with no external `import` statements (prevents chunk-split regressions) |
 
 ### Node.js Matrix
 
@@ -39,7 +41,7 @@ Run the full CI pipeline locally before pushing:
 npm run ci
 ```
 
-This runs lint, typecheck, test, and build sequentially — the same checks as the GitHub Actions workflow.
+This runs lint, typecheck, test, build, integration tests, and build artifact check sequentially — the same checks as the GitHub Actions workflow.
 
 ## Branch Protection (Recommended)
 

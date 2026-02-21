@@ -32,10 +32,12 @@ npm install          # Install all dependencies
 npm run dev          # Start both servers (MCP :8000, Widget :4444)
 npm run build        # Build widget + compile server
 npm start            # Production server on :8000
-npm test             # Run all tests (server + web)
+npm test             # Run all unit tests (server + web)
+npm run test:integration  # Integration tests (requires prior build)
+npm run test:build   # Build artifact integrity check (no chunk splitting)
 npm run lint         # ESLint
 npm run typecheck    # TypeScript type checking
-npm run ci           # Full CI pipeline (lint + typecheck + test + build)
+npm run ci           # Full CI pipeline (lint + typecheck + test + build + integration + build check)
 npm run ngrok        # Tunnel
 ```
 
@@ -43,9 +45,12 @@ npm run ngrok        # Tunnel
 
 ```
 server/src/
-  server.ts                        # Express + MCP transport + middleware
+  app.ts                           # Express app + MCP transport + middleware (importable, no port binding)
+  server.ts                        # Entry point — imports app.ts and calls listen()
   logger.ts                        # Pino structured logging
   logger.test.ts                   # Logger unit tests
+  integration/
+    server.integration.test.ts     # Full HTTP integration tests (supertest)
   analytics/
     store.ts                       # AnalyticsStore (SQLite via better-sqlite3)
     store.test.ts
