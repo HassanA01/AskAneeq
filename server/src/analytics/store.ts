@@ -5,6 +5,7 @@ export interface AnalyticsEvent {
   tool: string;
   query: string | null;
   category: string | null;
+  user_message: string | null;
   timestamp: string;
 }
 
@@ -19,15 +20,16 @@ export class AnalyticsStore {
     this.db = new Database(dbPath);
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS analytics_events (
-        id        INTEGER PRIMARY KEY AUTOINCREMENT,
-        tool      TEXT NOT NULL,
-        query     TEXT,
-        category  TEXT,
-        timestamp TEXT NOT NULL
+        id           INTEGER PRIMARY KEY AUTOINCREMENT,
+        tool         TEXT NOT NULL,
+        query        TEXT,
+        category     TEXT,
+        user_message TEXT,
+        timestamp    TEXT NOT NULL
       )
     `);
     this.stmtInsert = this.db.prepare(
-      "INSERT INTO analytics_events (tool, query, category, timestamp) VALUES (?, ?, ?, ?)"
+      "INSERT INTO analytics_events (tool, query, category, timestamp, user_message) VALUES (?, ?, ?, ?, ?)"
     );
     this.stmtGetToolCounts = this.db.prepare(
       "SELECT tool, COUNT(*) as count FROM analytics_events GROUP BY tool ORDER BY count DESC"
@@ -40,12 +42,13 @@ export class AnalyticsStore {
     );
   }
 
-  insert(event: { tool: string; query?: string; category?: string }): void {
+  insert(event: { tool: string; query?: string; category?: string; user_message?: string }): void {
     this.stmtInsert.run(
       event.tool,
       event.query ?? null,
       event.category ?? null,
-      new Date().toISOString()
+      new Date().toISOString(),
+      event.user_message ?? null
     );
   }
 

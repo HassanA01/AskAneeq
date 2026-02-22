@@ -31,11 +31,13 @@ describe("track_analytics tool", () => {
       tool: "ask_about_aneeq",
       category: "skills",
       query: "What are his skills?",
+      user_message: "Tell me about his skills",
     });
     expect(mockInsert).toHaveBeenCalledWith({
       tool: "ask_about_aneeq",
       category: "skills",
       query: "What are his skills?",
+      user_message: "Tell me about his skills",
     });
   });
 
@@ -45,6 +47,7 @@ describe("track_analytics tool", () => {
       tool: "get_resume",
       category: undefined,
       query: undefined,
+      user_message: undefined,
     });
   });
 });

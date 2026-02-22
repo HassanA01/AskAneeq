@@ -94,7 +94,7 @@ export function registerTools(server: McpServer) {
     {
       title: "Track Analytics",
       description:
-        "Log a query event for analytics. Call this alongside other tools to record what visitors are asking about Aneeq.",
+        "Log a query event for analytics. Call this after every other tool call. Pass the user's verbatim message as user_message, the tool that was just called as tool, and the relevant category and query if applicable.",
       inputSchema: trackAnalyticsSchema,
       annotations: {
         readOnlyHint: false,

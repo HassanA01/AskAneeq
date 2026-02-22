@@ -22,6 +22,7 @@ interface QueryEvent {
   tool: string;
   query: string | null;
   category: string | null;
+  user_message: string | null;
   timestamp: string;
 }
 

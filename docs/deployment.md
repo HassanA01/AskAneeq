@@ -6,17 +6,30 @@ AskAneeq ships as a Docker container. The multi-stage Dockerfile builds the web 
 
 ## Docker
 
-### Build and Run
+### Local Dev with docker-compose
+
+```bash
+docker-compose up
+```
+
+This starts the server on port 8000 with a named volume (`analytics-data`) mounted at `/app/data`, so the SQLite database persists across restarts.
+
+### Build and Run (manual)
 
 ```bash
 # Build the image
 docker build -t ask-aneeq .
 
-# Run locally
-docker run -p 8000:8000 ask-aneeq
-
-# Run with environment variables
+# Run with persistent analytics volume
 docker run -p 8000:8000 \
+  -v analytics-data:/app/data \
+  -e ANALYTICS_DB_PATH=/app/data/analytics.db \
+  ask-aneeq
+
+# Run with additional environment variables
+docker run -p 8000:8000 \
+  -v analytics-data:/app/data \
+  -e ANALYTICS_DB_PATH=/app/data/analytics.db \
   -e SERVER_URL=https://your-domain.com \
   -e CORS_ORIGINS=https://custom-origin.com \
   ask-aneeq
@@ -41,15 +54,25 @@ The final image contains no source code, dev dependencies, or build tools.
    - `NODE_ENV=production`
    - `SERVER_URL=https://<your-railway-url>`
    - `PORT=8000` (Railway sets this automatically)
-4. Deploy
+4. Add a persistent volume: Railway dashboard → your service → Volumes → Add Volume, mount path `/app/data`
+5. Set `ANALYTICS_DB_PATH=/app/data/analytics.db`
+6. Deploy
 
 ### Fly.io
 
 ```bash
 # Install flyctl, then:
 fly launch
-fly secrets set NODE_ENV=production SERVER_URL=https://<your-app>.fly.dev
+fly volumes create analytics_data --size 1
+fly secrets set NODE_ENV=production SERVER_URL=https://<your-app>.fly.dev ANALYTICS_DB_PATH=/app/data/analytics.db
 fly deploy
+```
+
+Add to `fly.toml`:
+```toml
+[mounts]
+  source = "analytics_data"
+  destination = "/app/data"
 ```
 
 ### Render
@@ -59,7 +82,9 @@ fly deploy
 3. Set environment variables:
    - `NODE_ENV=production`
    - `SERVER_URL=https://<your-render-url>.onrender.com`
-4. Deploy
+   - `ANALYTICS_DB_PATH=/app/data/analytics.db`
+4. Add a Disk: Render dashboard → your service → Disks → Add Disk, mount path `/app/data`
+5. Deploy
 
 ## Environment Variables
 

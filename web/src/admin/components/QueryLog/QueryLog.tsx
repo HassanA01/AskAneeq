@@ -3,6 +3,7 @@ interface QueryEvent {
   tool: string;
   query: string | null;
   category: string | null;
+  user_message: string | null;
   timestamp: string;
 }
 
@@ -53,8 +54,8 @@ export function QueryLog({ events }: QueryLogProps) {
       </div>
 
       {/* Column headers */}
-      <div className="grid grid-cols-[7rem_1fr_1fr_2fr] gap-x-4 px-5 py-2 border-b border-slate-800/60 bg-slate-800/30">
-        {["Timestamp", "Tool", "Category", "Query"].map((col) => (
+      <div className="grid grid-cols-[7rem_1fr_1fr_2fr_2fr] gap-x-4 px-5 py-2 border-b border-slate-800/60 bg-slate-800/30">
+        {["Timestamp", "Tool", "Category", "Query", "User Message"].map((col) => (
           <span
             key={col}
             className="font-mono text-[10px] text-slate-600 tracking-widest uppercase"
@@ -69,7 +70,7 @@ export function QueryLog({ events }: QueryLogProps) {
         {events.map((event, index) => (
           <div
             key={event.id}
-            className={`grid grid-cols-[7rem_1fr_1fr_2fr] gap-x-4 px-5 py-2.5 items-center transition-colors hover:bg-slate-800/40 ${
+            className={`grid grid-cols-[7rem_1fr_1fr_2fr_2fr] gap-x-4 px-5 py-2.5 items-center transition-colors hover:bg-slate-800/40 ${
               index % 2 === 0 ? "bg-transparent" : "bg-slate-800/20"
             }`}
           >
@@ -98,6 +99,20 @@ export function QueryLog({ events }: QueryLogProps) {
             <span className="font-mono text-xs text-slate-400 truncate">
               {event.query ?? "—"}
             </span>
+
+            {/* User Message */}
+            {event.user_message ? (
+              <span
+                className="font-mono text-xs text-slate-300 truncate"
+                title={event.user_message}
+              >
+                {event.user_message.length > 80
+                  ? event.user_message.slice(0, 80) + "…"
+                  : event.user_message}
+              </span>
+            ) : (
+              <span className="font-mono text-xs text-slate-600">—</span>
+            )}
           </div>
         ))}
       </div>
