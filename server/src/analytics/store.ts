@@ -28,6 +28,12 @@ export class AnalyticsStore {
         timestamp    TEXT NOT NULL
       )
     `);
+    // Migrate existing databases that predate the user_message column
+    try {
+      this.db.exec(`ALTER TABLE analytics_events ADD COLUMN user_message TEXT`);
+    } catch {
+      // Column already exists — safe to ignore
+    }
     this.stmtInsert = this.db.prepare(
       "INSERT INTO analytics_events (tool, query, category, timestamp, user_message) VALUES (?, ?, ?, ?, ?)"
     );
