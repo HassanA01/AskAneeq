@@ -83,6 +83,15 @@ function createMcpServer() {
             uri: "ui://widget/aneeq-profile.html",
             mimeType: RESOURCE_MIME_TYPE,
             text: widgetHtml,
+            _meta: {
+              ui: {
+                domain: "https://ask-aneeq-server-production.up.railway.app",
+                csp: {
+                  connectDomains: ["https://ask-aneeq-server-production.up.railway.app"],
+                  resourceDomains: ["https://*.oaistatic.com"],
+                },
+              },
+            },
           },
         ],
       };
