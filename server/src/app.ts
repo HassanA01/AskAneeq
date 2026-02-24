@@ -183,6 +183,26 @@ app.get("/admin", (_req, res) => {
   }
 });
 
+// Privacy policy
+app.get("/privacy", (_req, res) => {
+  const privacyPath = join(__dirname, "../../assets/privacy.html");
+  if (existsSync(privacyPath)) {
+    res.sendFile(privacyPath);
+  } else {
+    res.status(503).send("<p style='font-family:sans-serif;padding:2rem'>Page not available. Run: <code>npm run build</code></p>");
+  }
+});
+
+// Terms of service
+app.get("/terms", (_req, res) => {
+  const termsPath = join(__dirname, "../../assets/terms.html");
+  if (existsSync(termsPath)) {
+    res.sendFile(termsPath);
+  } else {
+    res.status(503).send("<p style='font-family:sans-serif;padding:2rem'>Page not available. Run: <code>npm run build</code></p>");
+  }
+});
+
 // MCP endpoint — stateless, one server+transport per request
 app.all("/mcp", mcpRateLimit, express.json(), async (req, res) => {
   const requestId = res.getHeader("X-Request-Id") as string;
