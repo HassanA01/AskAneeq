@@ -14,3 +14,5 @@ h2 { font-size: 1.1rem; font-weight: 600; margin: 2rem 0 0.5rem; }
 p { margin-bottom: 1rem; }
 a { color: #0066cc; }
 hr { border: none; border-top: 1px solid #e5e5e5; margin: 2.5rem 0; }
+
+ul { margin: 0 0 1rem 1.5rem; }
