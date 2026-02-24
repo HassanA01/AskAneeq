@@ -27,6 +27,13 @@ describe("AnalyticsStore", () => {
     const events = store.getRecentEvents();
     expect(events[0].query).toBeNull();
     expect(events[0].category).toBeNull();
+    expect(events[0].user_message).toBeNull();
+  });
+
+  it("inserts user_message and retrieves it", () => {
+    store.insert({ tool: "ask_about_aneeq", user_message: "Tell me about Aneeq" });
+    const events = store.getRecentEvents();
+    expect(events[0].user_message).toBe("Tell me about Aneeq");
   });
 
   it("getToolCounts aggregates by tool descending", () => {

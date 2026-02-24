@@ -39,6 +39,7 @@ npm run lint         # ESLint
 npm run typecheck    # TypeScript type checking
 npm run ci           # Full CI pipeline (lint + typecheck + test + build + integration + build check)
 npm run ngrok        # Tunnel
+docker-compose up    # Start server with persistent SQLite volume (local)
 ```
 
 ## Project Structure

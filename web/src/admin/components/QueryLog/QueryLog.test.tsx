@@ -8,6 +8,7 @@ const mockEvents = [
     tool: "ask_about_aneeq",
     query: "What are his skills?",
     category: "skills",
+    user_message: "Tell me about Aneeq's skills",
     timestamp: "2026-01-15T10:30:00.000Z",
   },
   {
@@ -15,6 +16,7 @@ const mockEvents = [
     tool: "get_resume",
     query: null,
     category: null,
+    user_message: null,
     timestamp: "2026-01-15T11:00:00.000Z",
   },
 ];
@@ -37,6 +39,17 @@ describe("QueryLog", () => {
   });
 
   it("renders — for null query and category", () => {
+    render(<QueryLog events={mockEvents} />);
+    const dashes = screen.getAllByText("—");
+    expect(dashes.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("renders user_message when present", () => {
+    render(<QueryLog events={mockEvents} />);
+    expect(screen.getByText("Tell me about Aneeq's skills")).toBeInTheDocument();
+  });
+
+  it("renders — for null user_message", () => {
     render(<QueryLog events={mockEvents} />);
     const dashes = screen.getAllByText("—");
     expect(dashes.length).toBeGreaterThanOrEqual(2);
