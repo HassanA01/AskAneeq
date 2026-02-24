@@ -143,6 +143,12 @@ const mcpRateLimit = rateLimit({
   message: { error: "Too many requests, please try again later" },
 });
 
+// OpenAI domain verification
+app.get("/.well-known/openai-apps-challenge", (_req, res) => {
+  res.setHeader("Content-Type", "text/plain");
+  res.end("47Ns4iFpu6Lge4wJQngoe9dN0QVKqeerTsgIqeaG9wc");
+});
+
 // Root probe — ChatGPT checks this when adding a connector
 app.get("/", (_req, res) => {
   res.setHeader("Content-Type", "text/plain");
