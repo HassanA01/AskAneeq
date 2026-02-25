@@ -1,3 +1,5 @@
+import { InlineWidget } from "react-calendly";
+
 interface Props {
   data: { bookingUrl: string; name: string };
 }
@@ -9,13 +11,14 @@ export function AvailabilityCard({ data }: Props) {
       <p className="text-sm text-secondary mb-4">
         Available for coffee chats, interviews, or collaborations.
       </p>
+      <InlineWidget url={data.bookingUrl} styles={{ height: "630px" }} />
       <a
         href={data.bookingUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center px-4 py-2 rounded-lg bg-[var(--color-background-info-surface)] text-[var(--color-text-info)] text-sm font-medium hover:opacity-80 transition-opacity"
+        className="inline-block mt-3 text-xs text-[var(--color-text-info)] hover:opacity-80 transition-opacity"
       >
-        Book a Meeting
+        Can&apos;t see it? Open in a new tab →
       </a>
     </div>
   );

@@ -88,7 +88,8 @@ function createMcpServer() {
                 domain: "https://ask-aneeq-server-production.up.railway.app",
                 csp: {
                   connectDomains: ["https://ask-aneeq-server-production.up.railway.app"],
-                  resourceDomains: ["https://*.oaistatic.com"],
+                  resourceDomains: ["https://*.oaistatic.com", "https://assets.calendly.com"],
+                  frameDomains: ["https://calendly.com"],
                 },
               },
             },
