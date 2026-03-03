@@ -8,6 +8,7 @@ import { EducationCard } from "./components/EducationCard";
 import { RecommendationsCard } from "./components/RecommendationsCard";
 import { AvailabilityCard } from "./components/AvailabilityCard";
 import { SkillComparisonView } from "./components/SkillComparisonView";
+import { PortfolioView } from "./components/PortfolioView";
 import { HelpCircle } from "lucide-react";
 import { Badge } from "@openai/apps-sdk-ui/components/Badge";
 
@@ -103,6 +104,8 @@ export function App() {
       {view === "availability" && <AvailabilityCard data={data} />}
 
       {view === "skill-comparison" && <SkillComparisonView data={data} />}
+
+      {view === "portfolio" && <PortfolioView data={data} />}
     </div>
   );
 }
