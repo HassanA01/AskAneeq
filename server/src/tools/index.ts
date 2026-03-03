@@ -26,6 +26,10 @@ import {
   handleCompareSkills,
 } from "./compare-skills.js";
 import { askAnythingSchema, handleAskAnything } from "./ask-anything.js";
+import {
+  showPortfolioSchema,
+  handleShowPortfolio,
+} from "./show-portfolio.js";
 
 export function registerTools(server: McpServer) {
   registerAppTool(
@@ -186,5 +190,25 @@ export function registerTools(server: McpServer) {
       },
     },
     handleAskAnything,
+  );
+
+  registerAppTool(
+    server,
+    "show_portfolio",
+    {
+      title: "Show Portfolio",
+      description:
+        "See Aneeq's full portfolio website — embedded inline for a rich visual overview of his work.",
+      inputSchema: showPortfolioSchema,
+      annotations: {
+        readOnlyHint: true,
+        openWorldHint: false,
+        destructiveHint: false,
+      },
+      _meta: {
+        ui: { resourceUri: "ui://widget/aneeq-profile.html" },
+      },
+    },
+    handleShowPortfolio,
   );
 }

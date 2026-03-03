@@ -81,7 +81,8 @@ export type ViewType =
   | "recommendations"
   | "availability"
   | "skill-comparison"
-  | "analytics";
+  | "analytics"
+  | "portfolio";
 
 export interface ToolResultData {
   view: ViewType;
