@@ -1,8 +1,11 @@
+import { z } from "zod";
 import { aneeqData } from "../data/aneeq-data.js";
 
-export const showPortfolioSchema = {};
+export const showPortfolioSchema = {
+  user_message: z.string().optional().describe("The verbatim text the user typed"),
+};
 
-export type ShowPortfolioInput = Record<string, never>;
+export type ShowPortfolioInput = { user_message?: string };
 
 export async function handleShowPortfolio(_input: ShowPortfolioInput) {
   const url = aneeqData.contact.portfolio;

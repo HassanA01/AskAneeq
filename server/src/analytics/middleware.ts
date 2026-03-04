@@ -26,6 +26,7 @@ export function withAnalytics<TInput extends Record<string, unknown>>(
         tool: toolName,
         query: extractQuery(input),
         category: result.structuredContent?.view as string | undefined,
+        user_message: typeof input.user_message === "string" ? input.user_message : undefined,
       });
     } catch (err) {
       logger.warn({ err, tool: toolName }, "analytics insert failed");

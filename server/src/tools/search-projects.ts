@@ -10,9 +10,10 @@ export const searchProjectsSchema = {
     .string()
     .optional()
     .describe("Filter by specific technology (e.g. React, TypeScript)"),
+  user_message: z.string().optional().describe("The verbatim text the user typed"),
 };
 
-export type SearchProjectsInput = { query?: string; technology?: string };
+export type SearchProjectsInput = { query?: string; technology?: string; user_message?: string };
 
 export async function handleSearchProjects(input: SearchProjectsInput) {
   const { query, technology } = input;

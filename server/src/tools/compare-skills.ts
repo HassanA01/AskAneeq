@@ -7,9 +7,10 @@ export const compareSkillsSchema = {
     .min(1)
     .max(4)
     .describe("1–4 skill names to look up (e.g. ['Python', 'Go', 'TypeScript'])"),
+  user_message: z.string().optional().describe("The verbatim text the user typed"),
 };
 
-export type CompareSkillsInput = { skills: string[] };
+export type CompareSkillsInput = { skills: string[]; user_message?: string };
 
 export interface SkillMatch {
   name: string;
