@@ -10,10 +10,6 @@ import {
   handleSearchProjects,
 } from "./search-projects.js";
 import {
-  trackAnalyticsSchema,
-  handleTrackAnalytics,
-} from "./track-analytics.js";
-import {
   getAvailabilitySchema,
   handleGetAvailability,
 } from "./get-availability.js";
@@ -30,8 +26,10 @@ import {
   showPortfolioSchema,
   handleShowPortfolio,
 } from "./show-portfolio.js";
+import { withAnalytics } from "../analytics/middleware.js";
+import type { AnalyticsStore } from "../analytics/store.js";
 
-export function registerTools(server: McpServer) {
+export function registerTools(server: McpServer, store: AnalyticsStore) {
   registerAppTool(
     server,
     "ask_about_aneeq",
@@ -49,7 +47,7 @@ export function registerTools(server: McpServer) {
         ui: { resourceUri: "ui://widget/aneeq-profile.html" },
       },
     },
-    handleAskAboutAneeq,
+    withAnalytics("ask_about_aneeq", handleAskAboutAneeq, store),
   );
 
   registerAppTool(
@@ -69,7 +67,7 @@ export function registerTools(server: McpServer) {
         ui: { resourceUri: "ui://widget/aneeq-profile.html" },
       },
     },
-    handleGetResume,
+    withAnalytics("get_resume", handleGetResume, store),
   );
 
   registerAppTool(
@@ -89,27 +87,7 @@ export function registerTools(server: McpServer) {
         ui: { resourceUri: "ui://widget/aneeq-profile.html" },
       },
     },
-    handleSearchProjects,
-  );
-
-  registerAppTool(
-    server,
-    "track_analytics",
-    {
-      title: "Track Analytics",
-      description:
-        "Log a query event for analytics. Call this after every other tool call. Pass the user's verbatim message as user_message, the tool that was just called as tool, and the relevant category and query if applicable.",
-      inputSchema: trackAnalyticsSchema,
-      annotations: {
-        readOnlyHint: false,
-        openWorldHint: false,
-        destructiveHint: false,
-      },
-      _meta: {
-        ui: { resourceUri: "ui://widget/aneeq-profile.html" },
-      },
-    },
-    handleTrackAnalytics,
+    withAnalytics("search_projects", handleSearchProjects, store),
   );
 
   registerAppTool(
@@ -129,7 +107,7 @@ export function registerTools(server: McpServer) {
         ui: { resourceUri: "ui://widget/aneeq-profile.html" },
       },
     },
-    handleGetAvailability,
+    withAnalytics("get_availability", handleGetAvailability, store),
   );
 
   registerAppTool(
@@ -149,7 +127,7 @@ export function registerTools(server: McpServer) {
         ui: { resourceUri: "ui://widget/aneeq-profile.html" },
       },
     },
-    handleGetRecommendations,
+    withAnalytics("get_recommendations", handleGetRecommendations, store),
   );
 
   registerAppTool(
@@ -169,7 +147,7 @@ export function registerTools(server: McpServer) {
         ui: { resourceUri: "ui://widget/aneeq-profile.html" },
       },
     },
-    handleCompareSkills,
+    withAnalytics("compare_skills", handleCompareSkills, store),
   );
 
   registerAppTool(
@@ -189,7 +167,7 @@ export function registerTools(server: McpServer) {
         ui: { resourceUri: "ui://widget/aneeq-profile.html" },
       },
     },
-    handleAskAnything,
+    withAnalytics("ask_anything", handleAskAnything, store),
   );
 
   registerAppTool(
@@ -209,6 +187,6 @@ export function registerTools(server: McpServer) {
         ui: { resourceUri: "ui://widget/aneeq-profile.html" },
       },
     },
-    handleShowPortfolio,
+    withAnalytics("show_portfolio", handleShowPortfolio, store),
   );
 }

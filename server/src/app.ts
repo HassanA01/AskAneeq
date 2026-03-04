@@ -99,7 +99,7 @@ function createMcpServer() {
     },
   );
 
-  registerTools(mcpServer);
+  registerTools(mcpServer, analyticsStore);
   return mcpServer;
 }
 
