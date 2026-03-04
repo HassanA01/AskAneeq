@@ -105,6 +105,9 @@ function createMcpServer() {
 
 export const app = express();
 
+// Trust first proxy (Railway, ngrok) so express-rate-limit can read X-Forwarded-For
+app.set("trust proxy", 1);
+
 export const analyticsStore = initStore(
   process.env.ANALYTICS_DB_PATH ?? "./analytics.db"
 );
