@@ -1,12 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { AvailabilityCard } from "./AvailabilityCard";
-
-vi.mock("react-calendly", () => ({
-  InlineWidget: ({ url }: { url: string }) => (
-    <div data-testid="calendly-widget" data-url={url} />
-  ),
-}));
 
 const mockData = {
   bookingUrl: "https://calendly.com/aneeq",
@@ -19,11 +13,11 @@ describe("AvailabilityCard", () => {
     expect(screen.getByText(/Aneeq Hassan/)).toBeInTheDocument();
   });
 
-  it("renders the Calendly inline widget with correct URL", () => {
+  it("renders an iframe with the booking URL", () => {
     render(<AvailabilityCard data={mockData} />);
-    const widget = screen.getByTestId("calendly-widget");
-    expect(widget).toBeInTheDocument();
-    expect(widget).toHaveAttribute("data-url", "https://calendly.com/aneeq");
+    const iframe = screen.getByTitle(/Schedule time with Aneeq Hassan/i);
+    expect(iframe).toBeInTheDocument();
+    expect(iframe).toHaveAttribute("src", "https://calendly.com/aneeq");
   });
 
   it("renders a fallback link with correct href", () => {
