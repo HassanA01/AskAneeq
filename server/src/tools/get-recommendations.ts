@@ -9,9 +9,10 @@ export const getRecommendationsSchema = {
     .max(10)
     .optional()
     .describe("Max number of recommendations to return (default: all)"),
+  user_message: z.string().optional().describe("The verbatim text the user typed"),
 };
 
-export type GetRecommendationsInput = { limit?: number };
+export type GetRecommendationsInput = { limit?: number; user_message?: string };
 
 export async function handleGetRecommendations(
   input: GetRecommendationsInput,

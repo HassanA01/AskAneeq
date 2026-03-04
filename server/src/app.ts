@@ -88,7 +88,7 @@ function createMcpServer() {
                 domain: "https://ask-aneeq-server-production.up.railway.app",
                 csp: {
                   connectDomains: ["https://ask-aneeq-server-production.up.railway.app"],
-                  resourceDomains: ["https://*.oaistatic.com", "https://assets.calendly.com"],
+                  resourceDomains: ["https://*.oaistatic.com", "https://assets.calendly.com", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
                   frameDomains: ["https://calendly.com", "https://aneeqhassan.com"],
                 },
               },
@@ -99,11 +99,14 @@ function createMcpServer() {
     },
   );
 
-  registerTools(mcpServer);
+  registerTools(mcpServer, analyticsStore);
   return mcpServer;
 }
 
 export const app = express();
+
+// Trust first proxy (Railway, ngrok) so express-rate-limit can read X-Forwarded-For
+app.set("trust proxy", 1);
 
 export const analyticsStore = initStore(
   process.env.ANALYTICS_DB_PATH ?? "./analytics.db"

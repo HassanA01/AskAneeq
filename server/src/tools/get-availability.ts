@@ -1,8 +1,11 @@
+import { z } from "zod";
 import { aneeqData } from "../data/aneeq-data.js";
 
-export const getAvailabilitySchema = {};
+export const getAvailabilitySchema = {
+  user_message: z.string().optional().describe("The verbatim text the user typed"),
+};
 
-export type GetAvailabilityInput = Record<string, never>;
+export type GetAvailabilityInput = { user_message?: string };
 
 export async function handleGetAvailability(_input: GetAvailabilityInput) {
   const bookingUrl =

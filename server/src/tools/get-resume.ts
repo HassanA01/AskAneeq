@@ -6,9 +6,10 @@ export const getResumeSchema = {
     .enum(["full", "summary"])
     .default("summary")
     .describe("Full resume or executive summary"),
+  user_message: z.string().optional().describe("The verbatim text the user typed"),
 };
 
-export type GetResumeInput = { format: "full" | "summary" };
+export type GetResumeInput = { format: "full" | "summary"; user_message?: string };
 
 export async function handleGetResume(input: GetResumeInput) {
   const { format } = input;

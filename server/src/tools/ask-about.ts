@@ -14,6 +14,7 @@ export const askAboutAneeqSchema = {
       "current-role",
     ])
     .describe("The category of information to retrieve about Aneeq"),
+  user_message: z.string().optional().describe("The verbatim text the user typed"),
 };
 
 export type AskAboutAneeqInput = {
@@ -26,6 +27,7 @@ export type AskAboutAneeqInput = {
     | "contact"
     | "hobbies"
     | "current-role";
+  user_message?: string;
 };
 
 export async function handleAskAboutAneeq(input: AskAboutAneeqInput) {

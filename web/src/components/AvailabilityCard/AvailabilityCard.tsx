@@ -1,5 +1,3 @@
-import { InlineWidget } from "react-calendly";
-
 interface Props {
   data: { bookingUrl: string; name: string };
 }
@@ -11,7 +9,13 @@ export function AvailabilityCard({ data }: Props) {
       <p className="text-sm text-secondary mb-4">
         Available for coffee chats, interviews, or collaborations.
       </p>
-      <InlineWidget url={data.bookingUrl} styles={{ height: "630px" }} />
+      <iframe
+        src={data.bookingUrl}
+        width="100%"
+        height="630"
+        style={{ border: "none" }}
+        title={`Schedule time with ${data.name}`}
+      />
       <a
         href={data.bookingUrl}
         target="_blank"

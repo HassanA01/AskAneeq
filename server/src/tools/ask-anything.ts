@@ -4,9 +4,10 @@ import { KeywordSearchProvider } from "../search/keyword-provider.js";
 
 export const askAnythingSchema = {
   query: z.string().min(1).describe("Any question about Aneeq Hassan"),
+  user_message: z.string().optional().describe("The verbatim text the user typed"),
 };
 
-export type AskAnythingInput = { query: string };
+export type AskAnythingInput = { query: string; user_message?: string };
 
 export async function handleAskAnything(input: AskAnythingInput) {
   const { query } = input;
