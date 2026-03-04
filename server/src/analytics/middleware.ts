@@ -1,10 +1,8 @@
 import { logger } from "../logger.js";
 import type { AnalyticsStore } from "./store.js";
 
-type ToolHandler<TInput> = (input: TInput) => Promise<{
-  structuredContent?: { view?: string; [key: string]: unknown };
-  content: { type: string; text: string }[];
-}>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ToolHandler<TInput> = (input: TInput) => Promise<any>;
 
 function extractQuery(input: Record<string, unknown>): string | undefined {
   if (typeof input.query === "string") return input.query;
